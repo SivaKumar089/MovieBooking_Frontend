@@ -19,7 +19,7 @@ export default function Logout() {
         position: "top-right",
         autoClose: 2000,
       });
-      navigate("/auth/login");
+      navigate("/auth/loginpage");
     }, 1500);
   };
 

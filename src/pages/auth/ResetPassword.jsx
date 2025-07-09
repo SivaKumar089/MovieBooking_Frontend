@@ -36,7 +36,7 @@ export default function ResetPassword() {
       });
 
       toast.success("Password reset successful");
-      navigate("/auth/login");
+      navigate("/auth/loginpage");
     } catch (err) {
       const errorMsg =
         err.response?.data?.error || "Password reset failed. Try again.";

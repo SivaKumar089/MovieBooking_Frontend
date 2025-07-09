@@ -19,14 +19,14 @@ export default function TokenRefresh() {
         navigate("/auth/profile");
       } catch (error) {
         toast.error("❌ Failed to refresh token. Please login again.");
-        navigate("/auth/login");
+        navigate("/auth/loginpage");
       }
     };
     if (refresh) {
       refreshTokenFunc();
     } else {
       toast.error("No refresh token found. Please login.");
-      navigate("/login");
+      navigate("/auth/loginpage");
     }
   }, [dispatch, navigate, refresh]);
 

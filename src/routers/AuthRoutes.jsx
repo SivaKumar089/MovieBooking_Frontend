@@ -15,7 +15,7 @@ export default function AuthRoutes() {
       <Routes>
        
         <Route path="signup" element={<Signup />} />
-        <Route path="login" element={<Login />} />
+        <Route path="loginpage" element={<Login />} />
         <Route path="logout" element={<Logout />} />
         <Route path="profile" element={<Profile />} />
         <Route path="otp/request" element={<OTPRequest />} />

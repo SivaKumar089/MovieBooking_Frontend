@@ -54,7 +54,7 @@ const Signup = () => {
     try {
       await axios.post("signup/", formData); // make sure this endpoint is correct
       toast.success("Signup successful! Login now.");
-      navigate("/auth/login");
+      navigate("/auth/loginpage");
     } catch (err) {
       console.log(err.response?.data); // for debugging
       const errorMsg =
@@ -166,7 +166,7 @@ const Signup = () => {
             {errors.role && (
               <p className="text-red-500 text-sm mt-1">{errors.role}</p>
             )}
-            
+
           </div>
 
           {/* Submit */}
@@ -181,7 +181,7 @@ const Signup = () => {
         <p className="text-center text-sm text-gray-500">
           Already have an account?{" "}
           <a
-            href="/auth/login"
+            href="/auth/loginpage"
             className="text-blue-600 font-medium hover:underline"
           >
             Login
