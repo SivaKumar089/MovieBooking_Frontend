@@ -166,6 +166,7 @@ const Signup = () => {
             {errors.role && (
               <p className="text-red-500 text-sm mt-1">{errors.role}</p>
             )}
+            
           </div>
 
           {/* Submit */}
