@@ -1,18 +1,22 @@
+# 🎬 Movie Ticket Booking App – Frontend
 
-All-in-One README.md for Movie Ticket Booking App
-markdown
-Copy
-Edit
-# 🎬 Movie Ticket Booking System
+This is the **frontend** of the Movie Ticket Booking System built using **React.js**. It allows users to sign up, log in, view movies and showtimes, select seats, and book tickets. It also includes role-based dashboards for Admins and Owners.
+---              
+## 🚀 Features
 
-A full-stack Movie Ticket Booking application built with **React.js** (Frontend) and **Django REST Framework** (Backend). Users can browse movies, view available shows, select seats, and make bookings. Admins and owners have role-based dashboards to manage the entire platform.
+- 🔐 User authentication (Signup/Login with JWT)
+- 🎞 View movies and shows
+- 🪑 Select and book seats
+- 👥 Role-based dashboards (Admin, Owner, User)
+- 💳 Fake payment flow
+- 📅 Real-time seat availability
+- 📱 Fully responsive with animations
 
 ---
 
-## 🔥 Tech Stack
+## 🛠️ Technologies Used
 
-### 🖥 Frontend
-- React.js (with Hooks)
+- React.js
 - React Router DOM
 - Redux Toolkit
 - Axios
@@ -21,182 +25,70 @@ A full-stack Movie Ticket Booking application built with **React.js** (Frontend)
 - React Toastify
 - AOS (Animate on Scroll)
 
+---
+## 📁 Folder Structure
+src/
+├── components/ # Reusable components (Navbar, Seats, etc.)
+├── pages/ # Page-level views
+│ ├── auth/ # Login, Signup, OTP
+│ ├── user/ # User pages (Booking, Shows)
+│ ├── owner/ # Owner dashboard
+│ └── admin/ # Admin dashboard
+├── redux/ # Redux store & slices
+├── router/ # App routes
+├── utils/ # Axios instance, helpers
+└── App.js # Root component
 
-### 🔙 Backend
-- Django
-- Django REST Framework (DRF)
-- Simple JWT Authentication
-- PostgreSQL (or SQLite for dev)
-- Custom `AbstractUser` with roles (admin, owner, user)
-- OTP-based Password Reset via Email
+
 
 ---
 
-## 📁 Project Folder Structure
+## 🧑‍💻 Getting Started
 
-movie-ticket-app/
-├── backend/ # Django Project
-│ ├── users/ # Custom User model and Auth
-│ ├── theaters/ # Theater, Movie, Show, Seat models
-│ ├── bookings/ # Booking logic
-│ └── ...
-├── frontend/ # React Frontend
-│ ├── components/
-│ ├── pages/
-│ ├── redux/
-│ ├── router/
-│ ├── utils/
-│ └── App.js
-
-yaml
-Copy
-Edit
-
----
-
-## ⚙️ Backend Setup (Django)
-
-### 1. Clone the Project
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/movie-ticket-app.git
-cd movie-ticket-app/backend
-2. Create Virtual Environment
-bash
-Copy
-Edit
-python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
-3. Install Requirements
-bash
-Copy
-Edit
-pip install -r requirements.txt
-4. Create .env file
-ini
-Copy
-Edit
-SECRET_KEY=your-secret-key
-DEBUG=True
-EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
-5. Migrate and Run Server
-bash
-Copy
-Edit
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
-🌐 Frontend Setup (React)
-1. Navigate to Frontend
-bash
-Copy
-Edit
-cd ../frontend
-2. Install Dependencies
-bash
-Copy
-Edit
+git clone https://github.com/your-username/movie-ticket-frontend.git
+cd movie-ticket-frontend
+2. Install dependencies
+
 npm install
-3. Create .env file
-env
-Copy
-Edit
+3. Setup environment variables
+Create a .env file in the root:
+ 
+
 REACT_APP_API_BASE_URL=http://localhost:8000/api/
-4. Run the Frontend
-bash
-Copy
-Edit
+(Replace with your actual backend API URL)
+
+4. Start the development server
+
 npm start
-Access: http://localhost:3000
+Visit: http://localhost:3000
 
-🔐 Authentication Features
-Signup with role: Admin / Owner / User
+🔐 Authentication Flow
+Signup/Login using email & password
 
-JWT-based login with refresh token
+JWT tokens stored in Redux/localStorage
 
-Password reset using OTP via email
+Auto token refresh on expiry
 
-Auth stored in Redux & LocalStorage
+OTP-based password reset
 
-Protected routes with role check
+Protected routes by role (user/owner/admin)
 
-🎟 Booking Features
-Seat map (10x10 grid) for each show
+🎟 Booking Flow
+User selects a show
 
-Auto-select/unselect logic for seats
+Seat grid loads with availability
 
-Real-time seat availability updates
+User selects number of seats
 
-Booking confirmation and fake payment
+Fake payment process triggers
 
-Booked seats marked as is_booked: true
+On success, seats are marked as booked
 
-🛠 Admin & Owner Features
-Admin:
-
-Manage all users
-
-Add/edit/delete movies
-
-View all bookings
-
-Owner:
-
-Create Theaters
-
-Create Shows with seats
-
-View bookings for their shows
-
-🧪 Sample Testing Steps
-Register as Admin, Owner, or User
-
-Admin logs in and adds Movies
-
-Owner creates Theaters and Shows
-
-User books seats for a show
-
-Booked seats become unavailable
-
-💻 Deployment Guide
-Frontend
-bash
-Copy
-Edit
+📦 Build for Production
 npm run build
-# Deploy to Netlify, Vercel, or GitHub Pages
-Backend
-bash
-Copy
-Edit
-# Setup Gunicorn + Nginx or use platforms like:
-# - Railway
-# - Render
-# - Heroku (with PostgreSQL)
-Production Notes
-Set DEBUG=False
+The production-ready files will be in the /build directory. You can deploy them on:
 
-Use real email backend for OTP
-
-Use PostgreSQL in production
-
-Enable CORS in Django for React domain
-
-📸 Screenshots
-Add screenshots like:
-
-Landing page
-
-Admin dashboard
-
-Seat selection UI
-
-Mobile responsiveness
-
-👨‍💻 Author
-Siva Kumar
-
-Full Stack Developer (React + Django)
-
-GitHub: @your-username
+Netlify      
