@@ -181,7 +181,7 @@ const Signup = () => {
         <p className="text-center text-sm text-gray-500">
           Already have an account?{" "}
           <a
-            href="/auth/loginpage"
+            href="loginpage"
             className="text-blue-600 font-medium hover:underline"
           >
             Login
