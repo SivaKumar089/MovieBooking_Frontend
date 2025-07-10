@@ -4,12 +4,12 @@ import dayjs from "dayjs";
 import store from "../redux/store";
 import { refreshToken as updateAccessToken, logout } from "../redux/authSlice";
 
-// const baseURL =import.meta.env.VITE_API_BASE_URL;
+const baseURL ="https://moviebooking-backend-uhac.onrender.com/"
 
 //const axiosInstance = axios.create({ baseURL });
 
 const axiosInstance = axios.create({
-  baseURL:"https://moviebooking-backend-uhac.onrender.com/",
+  baseURL,
   withCredentials: true, // if using cookies
 });
 
