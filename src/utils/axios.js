@@ -4,12 +4,12 @@ import dayjs from "dayjs";
 import store from "../redux/store";
 import { refreshToken as updateAccessToken, logout } from "../redux/authSlice";
 
-const baseURL =import.meta.env.VITE_API_BASE_URL;
+// const baseURL =import.meta.env.VITE_API_BASE_URL;
 
 //const axiosInstance = axios.create({ baseURL });
 
 const axiosInstance = axios.create({
-  baseURL, // Make sure this is correct
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true, // if using cookies
 });
 
