@@ -9,7 +9,7 @@ import { refreshToken as updateAccessToken, logout } from "../redux/authSlice";
 //const axiosInstance = axios.create({ baseURL });
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL:"https://moviebooking-backend-uhac.onrender.com/",
   withCredentials: true, // if using cookies
 });
 
