@@ -10,8 +10,6 @@ import NotFound from "../components/NotFound";
 export default function AdminRoutes() {
   return (
     <Routes>
-      
-     
       <Route path="adminpanel" element={<AdminPanel />} />
       <Route path="movies" element={<AdminMovies />} />
       <Route path="theaters" element={<AdminTheaters />} />
