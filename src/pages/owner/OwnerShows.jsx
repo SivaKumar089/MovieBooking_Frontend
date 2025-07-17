@@ -30,16 +30,15 @@ export function OwnerShows() {
         toast.error("Failed to load your shows");
       });
   }, [ownerId]);
+const filteredShows =
+  search.trim() === ""
+    ? shows
+    : shows.filter(
+        (s) =>
+          (s.movie_name?.toLowerCase() || "").includes(search.toLowerCase()) ||
+          (s.theater_name?.toLowerCase() || "").includes(search.toLowerCase()) 
+      );
 
-  const filteredShows =
-    search.trim() === ""
-      ? shows
-      : shows.filter(
-          (s) =>
-            s.movie_title.toLowerCase().includes(search.toLowerCase()) ||
-            s.theater_name.toLowerCase().includes(search.toLowerCase()) ||
-            s.language.toLowerCase().includes(search.toLowerCase())
-        );
 
   return (
     <div className="p-6" data-aos="fade-up">
