@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import store from "../redux/store";
 import { refreshToken as updateAccessToken, logout } from "../redux/authSlice";
 
-const baseURL = "https://moviebooking-backend-ht71.onrender.com/";
+const baseURL = "http://127.0.0.1:8000/";
 
 //const axiosInstance = axios.create({ baseURL });
 
