@@ -187,31 +187,30 @@ const Signup = () => {
           {/* OTP Field */}
           {otpSent && !emailVerified && (
             <div className="flex flex-col sm:flex-row gap-2">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={code}
-                  onChange={(e) => {
-                    setOtp(e.target.value);
-                    setError(""); // Clear error when typing again
-                  }}
-                  placeholder="Enter OTP"
-                  maxLength={6}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                />
-                <button
-                  type="button"
-                  onClick={handleVerifyOtp}
-                  disabled={code.length !== 6 || verifyingOtp}
-                  className={`px-4 py-2 rounded-xl text-white transition ${
-                    code.length !== 6 || verifyingOtp
-                      ? "bg-green-300 cursor-not-allowed"
-                      : "bg-green-600 hover:bg-green-700"
-                  }`}
-                >
-                  {verifyingOtp ? "Verifying..." : "Verify"}
-                </button>
-              </div>
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => {
+                  setOtp(e.target.value);
+                  setError("");
+                }}
+                placeholder="Enter OTP"
+                maxLength={6}
+                className="w-full sm:flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+              />
+
+              <button
+                type="button"
+                onClick={handleVerifyOtp}
+                disabled={code.length !== 6 || verifyingOtp}
+                className={`w-full sm:w-auto px-4 py-2 rounded-xl text-white transition ${
+                  code.length !== 6 || verifyingOtp
+                    ? "bg-green-300 cursor-not-allowed"
+                    : "bg-green-600 hover:bg-green-700"
+                }`}
+              >
+                {verifyingOtp ? "Verifying..." : "Verify"}
+              </button>
             </div>
           )}
 
