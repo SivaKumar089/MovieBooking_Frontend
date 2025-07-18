@@ -29,7 +29,6 @@ export default function Login() {
 
     if (!credentials.password) newErrors.password = "Password is required";
 
-
     return newErrors;
   };
 
@@ -161,3 +160,4 @@ export default function Login() {
     </div>
   );
 }
+

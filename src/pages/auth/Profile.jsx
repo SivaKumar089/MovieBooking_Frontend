@@ -7,7 +7,7 @@ export default function Profile() {
 
   useEffect(() => {
     axios
-      .get("/profile/")
+      .get("profile/")
       .then((res) => setProfile(res.data))
       .catch(() => toast.error("Error loading profile"));
   }, []);

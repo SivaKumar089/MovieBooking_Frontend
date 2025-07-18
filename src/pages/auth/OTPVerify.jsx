@@ -9,6 +9,7 @@ export default function OTPVerify() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const [verifyingOtp, setverifyingOtp] = useState(false);
 
   useEffect(() => {
     const passedEmail = location.state?.email;
@@ -28,6 +29,7 @@ export default function OTPVerify() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setverifyingOtp(true)
     const validationError = validate();
     if (validationError) {
       setError(validationError);
@@ -40,6 +42,7 @@ export default function OTPVerify() {
       navigate("/auth/password/reset", { state: { email } }); // Pass email to reset page
     } catch {
       toast.error("Invalid OTP");
+      setverifyingOtp(false)
     }
   };
 
@@ -62,6 +65,7 @@ export default function OTPVerify() {
               setCode(e.target.value);
               setError("");
             }}
+            maxLength={6}
             placeholder="Enter OTP"
             className={`w-full px-4 py-2 border ${
               error ? "border-red-500" : "border-gray-300"
@@ -72,9 +76,14 @@ export default function OTPVerify() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
+          disabled={code.length !== 6 || verifyingOtp}
+          className={`w-full text-white py-2 rounded-lg font-semibold transition duration-200 ${
+            code.length !== 6 || verifyingOtp
+              ? "bg-blue-300 cursor-not-allowed"
+              : "bg-blue-600 cursor-pointer hover:bg-blue-700"
+          }`}
         >
-          Verify
+          {verifyingOtp ? "Verifying..." : "Verify"}
         </button>
       </form>
     </div>

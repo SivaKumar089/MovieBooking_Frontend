@@ -7,7 +7,7 @@ export default function OTPRequest() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const [sendingOtp, setsendingOtp] = useState(false);
   const validateEmail = () => {
     if (!email.trim()) return "Email is required.";
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -17,7 +17,7 @@ export default function OTPRequest() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setsendingOtp(true)
     const validationError = validateEmail();
     if (validationError) {
       setError(validationError);
@@ -25,12 +25,13 @@ export default function OTPRequest() {
     }
 
     try {
-      await axios.post("otp/request/",{email});
+      await axios.post("otp/request/", { email });
       toast.success("OTP sent!");
-      navigate("/auth/otp/verify", { state: { email } }); 
+      navigate("/auth/otp/verify", { state: { email } });
     } catch (err) {
       const msg = err.response?.data?.error || "Error sending OTP";
       toast.error(msg);
+      setsendingOtp(false)
     }
   };
 
@@ -63,9 +64,14 @@ export default function OTPRequest() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
+          disabled={!email.trim() || !!validateEmail() || sendingOtp}
+          className={`w-full bg-blue-600 text-white py-2 rounded-lg font-semibold transition duration-200 ${
+            !email.trim() || !!validateEmail() || sendingOtp
+              ? "opacity-70 cursor-not-allowed"
+              : "hover:bg-blue-700 cursor-pointer"
+          }`}
         >
-          Send OTP
+          {sendingOtp ? "Sending..." : "Send OTP"}
         </button>
       </form>
     </div>
