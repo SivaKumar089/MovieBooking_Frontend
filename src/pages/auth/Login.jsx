@@ -137,7 +137,7 @@ export default function Login() {
             {/* 🔽 Forgot Password */}
             <div className="text-right mt-2">
               <span
-                onClick={() => navigate("/otp/request")} // adjust as needed
+                onClick={() => navigate("/auth/otp/request")} // adjust as needed
                 className="text-sm text-blue-600 hover:underline cursor-pointer"
               >
                 Forgot Password?
@@ -152,7 +152,7 @@ export default function Login() {
             className={`w-full py-2 rounded-lg font-semibold transition duration-200 text-white ${
               login
                 ? "bg-blue-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
+                : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
             }`}
           >
             {login?"Login...":"Login"}

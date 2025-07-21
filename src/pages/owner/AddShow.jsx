@@ -100,7 +100,9 @@ export function AddShow() {
             errors.movie ? "border-red-500" : "border-gray-300"
           } rounded focus:outline-none focus:ring-2 focus:ring-purple-400`}
         >
-          <option value="">-- Select Movie --</option>
+          <option value="" disabled hidden>
+            -- Select Movie --
+          </option>
           {movies.map((movie) => (
             <option key={movie.id} value={movie.id}>
               {movie.title}
@@ -124,7 +126,9 @@ export function AddShow() {
             errors.theater ? "border-red-500" : "border-gray-300"
           } rounded focus:outline-none focus:ring-2 focus:ring-purple-400`}
         >
-          <option value="">-- Select Theater --</option>
+          <option value="" disabled hidden>
+            -- Select Theater --
+          </option>
           {theaters.map((theater) => (
             <option key={theater.id} value={theater.id}>
               {theater.name}
@@ -188,7 +192,7 @@ export function AddShow() {
       <button
         type="submit"
         disabled={loading}
-        className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded font-semibold disabled:opacity-50"
+        className="bg-purple-600 hover:bg-purple-700 cursor-pointer text-white py-2 px-6 rounded font-semibold disabled:opacity-50"
       >
         {loading ? "Adding..." : "Add Show"}
       </button>

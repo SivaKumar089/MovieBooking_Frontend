@@ -107,7 +107,7 @@ const filteredShows =
                 onClick={() =>
                   navigate("/owner/seatlayout", { state: { showId: show.id } })
                 }
-                className="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded shadow transition flex items-center justify-center gap-2 text-sm font-medium"
+                className="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 cursor-pointer text-white py-2 px-4 rounded shadow transition flex items-center justify-center gap-2 text-sm font-medium"
               >
                 <FaChair /> Show Seats
               </button>

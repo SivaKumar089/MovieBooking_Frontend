@@ -27,7 +27,7 @@ export function ShowSeats() {
     <div className="p-6" data-aos="fade-up">
       <button
         onClick={() => window.history.back()}
-        className="flex items-center gap-2 text-gray-600 mb-4"
+        className="flex items-center gap-2 text-gray-600 mb-4 cursor-pointer"
       >
         <FaArrowLeft /> Back
       </button>

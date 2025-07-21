@@ -37,7 +37,7 @@ export default function GetTheaters() {
 
             <button
               onClick={() => handleViewMovies(t.id)}
-              className="inline-flex items-center gap-2 text-sm text-white bg-indigo-600 px-4 py-2 rounded hover:bg-indigo-700 transition"
+              className="inline-flex items-center gap-2 text-sm text-white bg-indigo-600 px-4 py-2 rounded hover:bg-indigo-700 transition cursor-pointer"
             >
               <FaFilm /> View Running Movies
             </button>

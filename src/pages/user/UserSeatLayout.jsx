@@ -155,7 +155,7 @@ export default function UserSeatLayout() {
 
       <button
         onClick={handleProceedToPay}
-        className="mt-6 flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white py-2 px-6 rounded shadow transition"
+        className="mt-6 flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white py-2 px-6 rounded shadow transition cursor-pointer"
       >
         <FaMoneyCheckAlt /> Proceed to Pay
       </button>

@@ -40,7 +40,7 @@ export function OwnerBookings() {
               <div className="flex items-center gap-2 mb-2 text-gray-700">
                 <FaUser className="text-blue-500" />
                 <span>
-                  <strong>User ID:</strong> {b.user_name}
+                  <strong>User:</strong> {b.user_name}
                 </span>
               </div>
 

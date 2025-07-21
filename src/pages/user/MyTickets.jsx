@@ -60,7 +60,7 @@ export default function MyTickets() {
                 ticket.is_cancelled ? "text-red-500" : "text-green-600"
               }`}
             >
-              <FaCheckCircle size={16} /> 
+              <FaCheckCircle size={16} />
               <span className="font-medium">Status:</span>{" "}
               {ticket.is_cancelled ? "Cancelled" : "Confirmed"}
             </p>
@@ -68,7 +68,7 @@ export default function MyTickets() {
             {!ticket.is_cancelled && (
               <button
                 onClick={() => CancelTicket(ticket.id)}
-                className="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transition"
+                className="w-full bg-red-600 hover:bg-red-700 cursor-pointer text-white py-2 px-4 rounded transition"
               >
                 Cancel Ticket
               </button>

@@ -5,6 +5,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   FaCheckCircle,
+  FaEye,
+  FaEyeSlash,
   FaTimesCircle,
   FaExclamationCircle,
 } from "react-icons/fa";
@@ -16,7 +18,7 @@ const Signup = () => {
     password: "",
     role: "",
   });
-
+  const [showPassword, setShowPassword] = useState(false);
   const [code, setOtp] = useState("");
   const [emailVerified, setEmailVerified] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
@@ -114,13 +116,13 @@ const Signup = () => {
     }
 
     try {
-      await axios.post("signup/", formData);
+      await axios.post("/auth/signup/", formData);
       setSign(false);
       toast.success("Signup successful! Login now.");
-      navigate("/login");
+      navigate("/auth/login");
     } catch (err) {
       setSign(false);
-      console.log(err.response?.data);
+      
       const errorMsg =
         err.response?.data?.detail ||
         Object.values(err.response?.data || {})[0] ||
@@ -171,12 +173,12 @@ const Signup = () => {
                     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) ||
                     sendingOtp
                   }
-                  className={`px-4 py-2 rounded-xl text-white transition ${
+                  className={`px-4 py-2 rounded-xl  text-white transition ${
                     !formData.email ||
                     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) ||
                     sendingOtp
                       ? "bg-blue-300 cursor-not-allowed"
-                      : "bg-blue-600 hover:bg-blue-700"
+                      : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
                   }`}
                 >
                   {sendingOtp ? "Sending..." : "Send OTP"}
@@ -210,7 +212,7 @@ const Signup = () => {
                 className={`w-full sm:w-auto px-4 py-2 rounded-xl text-white transition ${
                   code.length !== 6 || verifyingOtp
                     ? "bg-green-300 cursor-not-allowed"
-                    : "bg-green-600 hover:bg-green-700"
+                    : "bg-green-600 hover:bg-green-700 cursor-pointer"
                 }`}
               >
                 {verifyingOtp ? "Verifying..." : "Verify"}
@@ -253,7 +255,7 @@ const Signup = () => {
                 )}
               </div>
 
-              <div>
+              <div className="relative">
                 <label
                   htmlFor="password"
                   className="block text-sm font-semibold text-gray-700 mb-1"
@@ -261,7 +263,7 @@ const Signup = () => {
                   Password
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
                   value={formData.password}
@@ -269,6 +271,16 @@ const Signup = () => {
                   placeholder="••••••••"
                   className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                 />
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-9 cursor-pointer text-gray-500"
+                >
+                  {showPassword ? (
+                    <FaEyeSlash size={20} />
+                  ) : (
+                    <FaEye size={20} />
+                  )}
+                </span>
                 {errors.password && (
                   <p className="text-red-500 text-sm mt-1">{errors.password}</p>
                 )}
@@ -303,7 +315,9 @@ const Signup = () => {
                 type="submit"
                 disabled={sign}
                 className={`w-full bg-blue-600 text-white py-2 rounded-xl font-semibold transition duration-300 shadow-md ${
-                  sign ? "bg-blue-400 cursor-not-allowed" : "hover:bg-blue-700"
+                  sign
+                    ? "bg-blue-400 cursor-not-allowed"
+                    : "hover:bg-blue-700 cursor-pointer"
                 }`}
               >
                 {sign ? "Signing Up..." : "Signup"}

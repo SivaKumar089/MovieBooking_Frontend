@@ -95,7 +95,7 @@ export default function GetShows() {
             {/* Button */}
             <button
               onClick={() => handleViewSeat(s.id)}
-              className="flex items-center justify-center gap-2 w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition"
+              className="flex items-center justify-center gap-2 w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition cursor-pointer"
             >
               <FaEye /> View Seats
             </button>

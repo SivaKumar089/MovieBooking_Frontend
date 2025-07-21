@@ -57,14 +57,7 @@ export function AddMovie() {
     }
 
     try {
-      setLoading(true);
-      // console.log(form)
-      console.log(ownerId)
-      console.log(form.theater)
-      console.log(typeof form.theater)
-
-      //console.log(typeof ownerId)
-  
+      setLoading(true);  
       await axios.post("movies/", { ...form, owner: ownerId });
       toast.success("🎬 Movie added successfully!");
       setForm({
@@ -93,15 +86,21 @@ export function AddMovie() {
 
       {/* Theater Select */}
       <div>
-        <label className="block text-gray-700 font-semibold mb-1">Select Theater</label>
+        <label className="block text-gray-700 font-semibold mb-1">
+          Select Theater
+        </label>
         <select
           value={form.theater}
-          onChange={(e) => setForm({ ...form, theater: parseInt(e.target.value) })}
+          onChange={(e) =>
+            setForm({ ...form, theater: parseInt(e.target.value) })
+          }
           className={`w-full px-4 py-2 border ${
             errors.theater ? "border-red-500" : "border-gray-300"
           } rounded focus:outline-none focus:ring-2 focus:ring-green-400`}
         >
-          <option value="">-- Select a theater --</option>
+          <option value="" disabled hidden>
+            -- Select a theater --
+          </option>
           {theaters.map((theater) => (
             <option key={theater.id} value={theater.id}>
               {theater.name} - {theater.location} {theater.id}
@@ -132,13 +131,17 @@ export function AddMovie() {
 
       {/* Duration */}
       <div>
-        <label className="block text-gray-700 font-semibold mb-1">Duration (in minutes)</label>
+        <label className="block text-gray-700 font-semibold mb-1">
+          Duration (in minutes)
+        </label>
         <input
           type="number"
           placeholder="120"
           min={60}
           value={form.duration_minutes}
-          onChange={(e) => setForm({ ...form, duration_minutes: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, duration_minutes: e.target.value })
+          }
           className={`w-full px-4 py-2 border ${
             errors.duration_minutes ? "border-red-500" : "border-gray-300"
           } rounded focus:outline-none focus:ring-2 focus:ring-green-400`}
@@ -150,7 +153,9 @@ export function AddMovie() {
 
       {/* Language */}
       <div>
-        <label className="block text-gray-700 font-semibold mb-1">Language</label>
+        <label className="block text-gray-700 font-semibold mb-1">
+          Language
+        </label>
         <input
           type="text"
           placeholder="Tamil"
@@ -167,7 +172,9 @@ export function AddMovie() {
 
       {/* Release Date */}
       <div>
-        <label className="block text-gray-700 font-semibold mb-1">Release Date</label>
+        <label className="block text-gray-700 font-semibold mb-1">
+          Release Date
+        </label>
         <input
           type="date"
           value={form.release_date}
@@ -183,7 +190,9 @@ export function AddMovie() {
 
       {/* Description */}
       <div>
-        <label className="block text-gray-700 font-semibold mb-1">Description</label>
+        <label className="block text-gray-700 font-semibold mb-1">
+          Description
+        </label>
         <textarea
           placeholder="Enter description"
           value={form.description}
@@ -201,7 +210,7 @@ export function AddMovie() {
       <button
         type="submit"
         disabled={loading}
-        className="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded disabled:opacity-50"
+        className="bg-green-600 hover:bg-green-700 text-white cursor-pointer py-2 px-6 rounded disabled:opacity-50"
       >
         {loading ? "Adding..." : "Add Movie"}
       </button>

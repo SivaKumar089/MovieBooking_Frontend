@@ -122,7 +122,7 @@ export default function ResetPassword() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold transition duration-200"
+          className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold transition cursor-pointer duration-200"
         >
           {resetpassword ? "Reseting..." : "Reset password"}
         </button>

@@ -101,7 +101,7 @@ export default function PaymentPage() {
           <button
             onClick={() => navigate(-1)}
             disabled={loading}
-            className="flex items-center justify-center gap-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400 transition w-1/2 text-sm font-medium"
+            className="flex items-center justify-center gap-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400 transition w-1/2 text-sm font-medium cursor-pointer"
           >
             <FaArrowLeft /> Back
           </button>
@@ -109,10 +109,10 @@ export default function PaymentPage() {
           <button
             onClick={handlePayment}
             disabled={loading}
-            className={`flex items-center justify-center gap-2 ${
+            className={`flex items-center justify-center gap-2  ${
               loading
-                ? "bg-indigo-400 cursor-wait"
-                : "bg-indigo-700 hover:bg-indigo-800"
+                ? "bg-indigo-400 cursor-wait cursor-not-allowed"
+                : "bg-indigo-700 hover:bg-indigo-800 cursor-pointer"
             } text-white px-4 py-2 rounded transition w-1/2 text-sm font-medium`}
           >
             {loading ? (

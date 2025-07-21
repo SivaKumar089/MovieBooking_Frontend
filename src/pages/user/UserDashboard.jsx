@@ -29,11 +29,11 @@ export default function UserDashboard() {
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
-<aside
-  className={`fixed md:sticky top-0 left-0 z-30 h-full md:h-screen bg-white w-64 border-r shadow-md p-5 space-y-6 transition-transform duration-300 ease-in-out ${
-    sidebarOpen ? "translate-x-0" : "-translate-x-full"
-  } md:translate-x-0`}
->
+      <aside
+        className={`fixed md:sticky top-0 left-0 z-30 h-full md:h-screen bg-white w-64 border-r shadow-md p-5 space-y-6 transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
+      >
         {/* Mobile Header */}
         <div className="flex items-center justify-between mb-4 md:hidden">
           <h2 className="text-xl font-bold text-blue-700">User Panel</h2>
@@ -51,10 +51,10 @@ export default function UserDashboard() {
                 setActiveComponent(label);
                 setSidebarOpen(false);
               }}
-              className={`flex items-center gap-3 px-3 py-2 rounded-md font-medium transition w-full ${
+              className={`flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer font-medium transition w-full ${
                 activeComponent === label
                   ? "bg-blue-100 text-blue-600"
-                  : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                  : "text-gray-700 hover:text-blue-600 hover:bg-blue-50 "
               }`}
             >
               {icon} {label}
@@ -65,7 +65,7 @@ export default function UserDashboard() {
 
       {/* Mobile Toggle Button */}
       <button
-        className="fixed top-4 left-4 z-40 text-gray-700 md:hidden"
+        className="fixed top-4 left-4 z-40 text-gray-700 md:hidden cursor-pointer"
         onClick={toggleSidebar}
       >
         <FaBars size={24} />

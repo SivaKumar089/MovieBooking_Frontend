@@ -37,17 +37,17 @@ export default function CancelTicket() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md text-center">
         <h2 className="text-2xl font-bold text-red-600 mb-4">Cancel Ticket</h2>
-      
+
         <div className="flex gap-4 mt-6">
           <button
             onClick={() => navigate(-1)}
-            className="w-1/2 bg-gray-300 text-black py-2 rounded hover:bg-gray-400"
+            className="w-1/2 bg-gray-300 text-black py-2 rounded hover:bg-gray-400 cursor-pointer"
           >
             ⬅ Back
           </button>
           <button
             onClick={handleCancel}
-            className="w-1/2 bg-red-600 text-white py-2 rounded hover:bg-red-700"
+            className="w-1/2 bg-red-600 text-white py-2 rounded hover:bg-red-700 cursor-pointer"
           >
             Confirm Cancel
           </button>

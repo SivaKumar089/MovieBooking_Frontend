@@ -66,7 +66,7 @@ export default function GetMovies() {
 
             <button
               onClick={() => handleViewShows(m.id)}
-              className="mt-2 inline-flex items-center gap-2 bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition"
+              className="mt-2 inline-flex items-center gap-2 bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer"
             >
               <FaTheaterMasks />
               View Shows

@@ -30,11 +30,11 @@ export default function OwnerDashboard() {
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
-<div
-  className={`fixed md:sticky top-0 left-0 z-30 h-full md:h-screen bg-white w-64 border-r shadow-md p-5 space-y-6 transition-transform duration-300 ease-in-out ${
-    sidebarOpen ? "translate-x-0" : "-translate-x-full"
-  } md:translate-x-0`}
->
+      <div
+        className={`fixed md:sticky top-0 left-0 z-30 h-full md:h-screen bg-white w-64 border-r shadow-md p-5 space-y-6 transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
+      >
         <div className="flex items-center justify-between mb-4 md:hidden">
           <h2 className="text-xl font-bold text-blue-700">Owner Panel</h2>
           <FaTimes
@@ -53,8 +53,8 @@ export default function OwnerDashboard() {
               }}
               className={`flex items-center gap-3 px-3 py-2 rounded-md font-medium w-full transition ${
                 activeComponent === label
-                  ? "bg-blue-100 text-blue-600"
-                  : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                  ? "bg-blue-100 text-blue-600 cursor-pointer"
+                  : "text-gray-700 hover:text-blue-600 cursor-pointer hover:bg-blue-50"
               }`}
             >
               {icon} {label}
@@ -63,9 +63,9 @@ export default function OwnerDashboard() {
         </nav>
       </div>
 
-      {/* Mobile Toggle Button */}
+      
       <button
-        className="fixed top-4 left-4 z-40 text-gray-700 md:hidden"
+        className="fixed top-4 left-4 z-40 text-gray-700 md:hidden cursor-pointer"
         onClick={toggleSidebar}
       >
         <FaBars size={24} />

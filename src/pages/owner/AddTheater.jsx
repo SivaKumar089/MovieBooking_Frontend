@@ -11,14 +11,6 @@ export function AddTheater() {
   
  const ownerId = useSelector((state) => state.auth.user?.user_id);
 
-
-  // console.log(
-  //   "Redux User:",
-  //   useSelector((state) => state.auth.user.user_id)
-  // );
-
-  
-
   const validate = () => {
     const newErrors = {};
     if (!form.name.trim()) newErrors.name = "Name is required.";
@@ -50,7 +42,6 @@ export function AddTheater() {
       toast.error("Failed to add theater. Try again.");
     } finally {
       setLoading(false);
-      console.log(ownerId)
     }
   };
 
@@ -96,13 +87,12 @@ export function AddTheater() {
         {errors.location && (
           <p className="text-red-500 text-sm mt-1">{errors.location}</p>
         )}
-        
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded disabled:opacity-50"
+        className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded cursor-pointer disabled:opacity-50"
       >
         {loading ? "Adding..." : "Add Theater"}
       </button>
