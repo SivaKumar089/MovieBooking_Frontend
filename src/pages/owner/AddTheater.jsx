@@ -96,6 +96,7 @@ export function AddTheater() {
         {errors.location && (
           <p className="text-red-500 text-sm mt-1">{errors.location}</p>
         )}
+        
       </div>
 
       <button
