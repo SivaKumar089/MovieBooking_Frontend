@@ -7,12 +7,11 @@ import {
   FaChair,
   FaCalendarAlt,
   FaUser,
-  FaTimesCircle,
+  FaCheckCircle,
   FaTicketAlt,
 } from "react-icons/fa";
 export default function MyTickets() {
-  const navigate=useNavigate()
-
+  const navigate = useNavigate();
 
   const [tickets, setTickets] = useState([]);
 
@@ -21,7 +20,6 @@ export default function MyTickets() {
   }, []);
   const CancelTicket = (ticketId) => {
     navigate("/user/cancel", { state: { ticketId } });
-
   };
   return (
     <div className="p-6" data-aos="fade-up">
@@ -47,7 +45,8 @@ export default function MyTickets() {
 
             <p className="flex items-center gap-2 text-gray-600">
               <FaChair className="text-indigo-400" />
-              <span className="font-medium">Seat:</span>{ticket.seat.row}
+              <span className="font-medium">Seat:</span>
+              {ticket.seat.row}
               {ticket.seat.column}
             </p>
 
@@ -56,14 +55,12 @@ export default function MyTickets() {
               <span className="font-medium">Show:</span> {ticket.show}
             </p>
 
-           
-
             <p
               className={`flex items-center gap-2 ${
                 ticket.is_cancelled ? "text-red-500" : "text-green-600"
               }`}
             >
-              <FaTimesCircle />
+              <FaCheckCircle size={16} /> 
               <span className="font-medium">Status:</span>{" "}
               {ticket.is_cancelled ? "Cancelled" : "Confirmed"}
             </p>

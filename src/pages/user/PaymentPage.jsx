@@ -31,9 +31,7 @@ export default function PaymentPage() {
       toast.error("Insufficient balance!");
       return;
     }
-
     setLoading(true);
-
     try {
       toast.success("Payment Successful!");
 
@@ -80,7 +78,7 @@ export default function PaymentPage() {
     <div className="min-h-screen flex flex-col justify-center items-center p-6 bg-gradient-to-br from-indigo-50 to-white">
       <div className="bg-white shadow-2xl rounded-xl p-6 w-full max-w-md text-center border border-indigo-100">
         <h2 className="text-2xl font-bold mb-4 text-indigo-700 flex justify-center items-center gap-2">
-          <FaCreditCard /> Fake Razorpay
+          <FaCreditCard /> Payment page
         </h2>
 
         <div className="mb-2 text-gray-700 text-sm flex justify-center items-center gap-2">

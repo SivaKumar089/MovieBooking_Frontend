@@ -15,6 +15,8 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [login, setLogin] = useState(false);
+
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -34,14 +36,17 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLogin(true)
     const formErrors = validate();
     if (Object.keys(formErrors).length > 0) {
+      setLogin(false)
       setErrors(formErrors);
       return;
     }
 
     try {
       const res = await axios.post("login/", credentials);
+      setLogin(false)
       dispatch(loginSuccess(res.data));
       toast.success("Logged in successfully");
 
@@ -56,6 +61,7 @@ export default function Login() {
         navigate("/profile");
       }
     } catch (err) {
+      setLogin(false)
       const errorMsg =
         err.response?.data?.detail || // DRF often sends this
         err.response?.data?.error || // custom error format
@@ -131,7 +137,7 @@ export default function Login() {
             {/* 🔽 Forgot Password */}
             <div className="text-right mt-2">
               <span
-                onClick={() => navigate("/auth/otp/request")} // adjust as needed
+                onClick={() => navigate("/otp/request")} // adjust as needed
                 className="text-sm text-blue-600 hover:underline cursor-pointer"
               >
                 Forgot Password?
@@ -142,9 +148,14 @@ export default function Login() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
+            disabled={login}
+            className={`w-full py-2 rounded-lg font-semibold transition duration-200 text-white ${
+              login
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
           >
-            Login
+            {login?"Login...":"Login"}
           </button>
         </form>
         <p className="text-center text-sm text-gray-500">

@@ -26,6 +26,8 @@ const Signup = () => {
   const navigate = useNavigate();
   const [verifyingOtp, setVerifyingOtp] = useState(false);
   const [sendingOtp, setsendingOtp] = useState(false);
+  const [sign, setSign] = useState(false);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
@@ -49,7 +51,7 @@ const Signup = () => {
       setsendingOtp(false);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to send OTP.");
-      setsendingOtp(false)
+      setsendingOtp(false);
     }
   };
 
@@ -68,9 +70,8 @@ const Signup = () => {
         code,
       });
       setEmailVerified(true);
-      
+
       setMessage("Email verified successfully.");
-      
     } catch (err) {
       setError("Invalid OTP.");
       setVerifyingOtp(false);
@@ -106,13 +107,19 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    setSign(true);
+    if (!validateForm()) {
+      setSign(false);
+      return;
+    }
 
     try {
       await axios.post("signup/", formData);
+      setSign(false);
       toast.success("Signup successful! Login now.");
-      navigate("/auth/loginpage");
+      navigate("/login");
     } catch (err) {
+      setSign(false);
       console.log(err.response?.data);
       const errorMsg =
         err.response?.data?.detail ||
@@ -174,9 +181,6 @@ const Signup = () => {
                 >
                   {sendingOtp ? "Sending..." : "Send OTP"}
                 </button>
-              )}
-              {emailVerified && (
-                <FaCheckCircle className="text-green-500 mt-3" size={18} />
               )}
             </div>
             {errors.email && (
@@ -297,9 +301,12 @@ const Signup = () => {
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-xl font-semibold hover:bg-blue-700 transition duration-300 shadow-md"
+                disabled={sign}
+                className={`w-full bg-blue-600 text-white py-2 rounded-xl font-semibold transition duration-300 shadow-md ${
+                  sign ? "bg-blue-400 cursor-not-allowed" : "hover:bg-blue-700"
+                }`}
               >
-                Sign Up
+                {sign ? "Signing Up..." : "Signup"}
               </button>
             </>
           )}
@@ -307,10 +314,7 @@ const Signup = () => {
 
         <p className="text-center text-sm text-gray-500">
           Already have an account?{" "}
-          <a
-            href="loginpage"
-            className="text-blue-600 font-medium hover:underline"
-          >
+          <a href="login" className="text-blue-600 font-medium hover:underline">
             Login
           </a>
         </p>

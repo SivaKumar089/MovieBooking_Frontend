@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
+import { HiTicket } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import {
   FaTicketAlt,
@@ -22,6 +23,20 @@ export default function UserSeatLayout() {
   const [ticketCount, setTicketCount] = useState(1);
   const ticketPrice = 100;
   const token = useSelector((state) => state.auth.access);
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const value = Number(e.target.value);
+
+    if (value < 1 || value > 10) {
+      setError("Please select between 1 and 10 tickets");
+    } else {
+      setError("");
+    }
+
+    setTicketCount(value);
+    setSelected([]);
+  };
 
   useEffect(() => {
     if (!showId || !token) return;
@@ -42,16 +57,18 @@ export default function UserSeatLayout() {
   }, [showId, token]);
 
   const handleSelect = (seat) => {
-    if (seat.is_booked || myTickets.includes(seat.id)) return;
+    if (error === "") {
+      if (seat.is_booked || myTickets.includes(seat.id)) return;
 
-    if (selected.includes(seat.id)) {
-      setSelected((prev) => prev.filter((s) => s !== seat.id));
-    } else {
-      if (selected.length >= ticketCount) {
-        const [, ...rest] = selected;
-        setSelected([...rest, seat.id]);
+      if (selected.includes(seat.id)) {
+        setSelected((prev) => prev.filter((s) => s !== seat.id));
       } else {
-        setSelected((prev) => [...prev, seat.id]);
+        if (selected.length >= ticketCount) {
+          const [, ...rest] = selected;
+          setSelected([...rest, seat.id]);
+        } else {
+          setSelected((prev) => [...prev, seat.id]);
+        }
       }
     }
   };
@@ -82,21 +99,27 @@ export default function UserSeatLayout() {
         <FaTicketAlt /> Select Seats
       </h1>
 
-      <label className="block mb-2 font-semibold flex items-center gap-2 text-gray-700">
-        <FaHashtag className="text-indigo-500" /> How many tickets?
-      </label>
+      <div className="mb-6 w-72">
+        <label className="flex items-center text-sm font-medium text-gray-700 mb-1 gap-1">
+          <HiTicket className="text-indigo-600 text-lg" />
+          Number of Tickets
+        </label>
 
-      <input
-        type="number"
-        value={ticketCount}
-        min={1}
-        max={5}
-        onChange={(e) => {
-          setTicketCount(Number(e.target.value));
-          setSelected([]);
-        }}
-        className="mb-6 border px-3 py-2 rounded w-28 shadow focus:outline-none focus:ring-2 focus:ring-indigo-400"
-      />
+        <input
+          type="number"
+          value={ticketCount}
+          min={1}
+          max={10}
+          onChange={handleChange}
+          className={`border px-4 py-2 rounded w-full shadow-sm text-sm focus:outline-none focus:ring-2 ${
+            error
+              ? "border-red-500 focus:ring-red-300"
+              : "focus:ring-indigo-400"
+          }`}
+        />
+
+        {error && <p className="text-sm text-red-600 mt-1">{error}</p>}
+      </div>
 
       <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2 mb-6">
         {seats.map((seat) => {
@@ -108,14 +131,14 @@ export default function UserSeatLayout() {
               ? "bg-blue-600 text-white cursor-not-allowed"
               : "bg-red-600 text-white cursor-not-allowed"
             : isSelected
-            ? "bg-yellow-400 text-black"
-            : "bg-green-500 text-white hover:bg-green-600";
+            ? "bg-yellow-400 text-black cursor-pointer"
+            : "bg-green-500 text-white hover:bg-green-600 cursor-pointer";
 
           return (
             <div
               key={seat.id}
               onClick={() => handleSelect(seat)}
-              className={`flex flex-col items-center justify-center py-2 rounded shadow font-bold transition duration-200 cursor-pointer text-xs ${seatColor}`}
+              className={`flex flex-col items-center justify-center py-2 rounded shadow font-bold transition duration-200  text-xs ${seatColor}`}
             >
               <FaChair className="text-lg" />
               {seat.row}
@@ -126,7 +149,8 @@ export default function UserSeatLayout() {
       </div>
 
       <div className="mt-4 text-lg font-semibold flex items-center gap-2 text-gray-800">
-        <FaRupeeSign className="text-green-600" /> Total: ₹{selected.length * ticketPrice}
+        <FaRupeeSign className="text-green-600" /> Total: ₹
+        {selected.length * ticketPrice}
       </div>
 
       <button

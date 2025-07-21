@@ -97,9 +97,19 @@ export default function RoleBasedLayout() {
           <FaBars size={20} />
         </button>
 
-        <div className="text-xl font-bold">
-          <NavLink to="/">🎬 Movie Booking</NavLink>
-        </div>
+        <NavLink
+          to="/"
+          className="flex items-center gap-1 p-2 md:p-3 rounded-md  transition duration-300"
+        >
+          <img
+            src="/website_icon.png" // your logo path
+            alt="BookIt Logo"
+            className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
+          />
+          <span className="text-lg sm:text-xl font-bold text-white">
+            BookIt
+          </span>
+        </NavLink>
 
         {/* Desktop Navbar */}
         <nav className="hidden sm:flex shadow-sm  px-8 py-2 gap-6 text-sm">

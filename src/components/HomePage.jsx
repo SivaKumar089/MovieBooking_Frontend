@@ -8,9 +8,17 @@ export default function HomePage() {
       className="min-h-screen bg-gradient-to-r from-blue-200 via-purple-100 to-pink-200 flex flex-col justify-center items-center p-8 text-center"
       data-aos="fade-in"
     >
-      <h1 className="text-5xl md:text-6xl font-bold text-indigo-800 mb-6">
-        🎬 MovieBooking App
-      </h1>
+      <div className="flex items-center gap-4 mb-6">
+        <img
+          src="/website_icon.png"
+          alt="BookIt Logo"
+          className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-md"
+        />
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-800">
+          Book<span className="text-red-600">It</span> App
+        </h1>
+      </div>
+
       <p className="text-lg md:text-xl text-gray-700 max-w-xl mb-8">
         Book your favorite movie tickets with ease! Explore theaters, shows, and
         seats—all in one place.
@@ -24,7 +32,7 @@ export default function HomePage() {
           Get Started
         </Link>
         <Link
-          to="/theaters"
+          to="/auth/login"
           className="bg-white hover:bg-gray-100 text-indigo-700 px-6 py-3 rounded-full text-lg border border-indigo-600 transition-all duration-300"
         >
           Browse Theaters
