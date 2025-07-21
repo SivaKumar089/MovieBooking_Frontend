@@ -116,7 +116,7 @@ const Signup = () => {
     }
 
     try {
-      await axios.post("/auth/signup/", formData);
+      await axios.post("signup/", formData);
       setSign(false);
       toast.success("Signup successful! Login now.");
       navigate("/auth/login");
