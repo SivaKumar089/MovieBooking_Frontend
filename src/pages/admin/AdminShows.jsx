@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
 import { Film, MapPin, CalendarDays, Clock, Users } from "lucide-react";
+import { FaSearch } from "react-icons/fa";
 
 export default function AdminShows() {
   const [shows, setShows] = useState([]);
@@ -22,17 +23,22 @@ export default function AdminShows() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6" data-aos="fade-up">
-      <h1 className="text-3xl font-bold flex items-center gap-2">
-        🎟️ Manage Shows
-      </h1>
-
-      <input
-        type="text"
-        placeholder="🔍 Search by movie or theater name"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-3xl font-bold text-blue-700 flex items-center gap-3">
+          🎟️ Manage Shows
+        </h1>
+        <div className="relative mt-4 sm:mt-0 w-full sm:w-1/2">
+          <FaSearch className="absolute top-3 left-3 text-gray-400" />
+    
+        <input
+          type="text"
+          placeholder="Search by movie or theater name"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-10 pr-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        </div>
+      </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredShows.length === 0 ? (
@@ -43,44 +49,46 @@ export default function AdminShows() {
           filteredShows.map((show) => (
             <div
               key={show.id}
-              className="bg-white rounded-2xl shadow-md p-5 space-y-2 hover:shadow-lg transition"
+              className="bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 p-6 space-y-3"
             >
-              <div className="flex items-center gap-2 text-xl font-semibold">
+              <div className="flex items-center gap-2 text-xl font-semibold text-gray-800">
                 <Film className="w-5 h-5 text-blue-500" />
                 {show.movie_name}
               </div>
 
-              <div className="text-sm flex items-center gap-2 text-gray-700">
-                <MapPin className="w-4 h-4 text-green-500" />
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <MapPin className="w-4 h-4 text-green-600" />
                 {show.theater_name}
               </div>
 
-              <div className="text-sm flex items-center gap-2 text-gray-600">
-                <CalendarDays className="w-4 h-4 text-purple-500" />
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <CalendarDays className="w-4 h-4 text-purple-600" />
                 {show.date}
               </div>
 
-              <div className="text-sm flex items-center gap-2 text-gray-600">
-                <Clock className="w-4 h-4 text-yellow-500" />
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Clock className="w-4 h-4 text-yellow-600" />
                 {show.start_time} - {show.end_time}
               </div>
 
-              <div className="text-sm flex items-center gap-2 text-gray-600">
-                <Users className="w-4 h-4 text-red-500" />
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Users className="w-4 h-4 text-red-600" />
                 <span>
                   {show.booked_seats} booked / {show.total_seats} seats
                 </span>
               </div>
-
-              <div className="mt-2">
+              
+              <div className="pt-2">
                 <span
-                  className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${
+                  className={`inline-block px-3 py-1 text-xs font-bold rounded-full ${
                     show.available_seats > 0
                       ? "bg-green-100 text-green-700"
                       : "bg-red-100 text-red-700"
                   }`}
                 >
-                  {show.available_seats} seats available
+                  {show.available_seats > 0
+                    ? `${show.available_seats} seats available`
+                    : "No seats available"}
                 </span>
               </div>
             </div>

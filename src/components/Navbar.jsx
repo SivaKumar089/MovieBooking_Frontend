@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "../utils/axios";
 import {
@@ -19,6 +19,7 @@ export default function RoleBasedLayout() {
   const access = useSelector((state) => state.auth.access);
   const [userData, setUserData] = useState(null);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const navigate =useNavigate('')
 
   useEffect(() => {
     if (access) {
@@ -88,7 +89,6 @@ export default function RoleBasedLayout() {
 
   return (
     <div className="min-h-screen bg-gray-100 ">
-      {/* Header */}
       <header className="bg-gray-900 text-white sticky top-0 z-40 flex items-center justify-between px-4 py-3 sm:px-8 shadow-md">
         <button
           className="sm:hidden"
@@ -102,7 +102,7 @@ export default function RoleBasedLayout() {
           className="flex items-center gap-1 p-2 md:p-3 rounded-md  transition duration-300"
         >
           <img
-            src="/website_icon.png" // your logo path
+            src="/website_icon.png"
             alt="BookIt Logo"
             className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
           />
@@ -111,7 +111,6 @@ export default function RoleBasedLayout() {
           </span>
         </NavLink>
 
-        {/* Desktop Navbar */}
         <nav className="hidden sm:flex shadow-sm  px-8 py-2 gap-6 text-sm">
           {links.map((link, index) => (
             <NavLink
@@ -141,13 +140,16 @@ export default function RoleBasedLayout() {
             Logout
           </NavLink>
         </nav>
-
         {username && (
-          <div className="text-sm font-medium text-gray-300">{username}</div>
+          <div
+            onClick={() => navigate("/auth/profile")}
+            className="text-sm font-medium text-gray-300 cursor-pointer hover:text-white transition"
+          >
+            {username}
+          </div>
         )}
       </header>
 
-      {/* Mobile Sidebar */}
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white z-50 transform transition-transform duration-300 ease-in-out sm:hidden ${
           isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -193,7 +195,6 @@ export default function RoleBasedLayout() {
         </nav>
       </div>
 
-      {/* Page Content */}
       <main className="p-4 sm:px-8">
         <Outlet />
       </main>

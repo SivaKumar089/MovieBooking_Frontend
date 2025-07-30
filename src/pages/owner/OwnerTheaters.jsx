@@ -17,7 +17,6 @@ export function OwnerTheaters() {
         setTheaters(res.data); 
       })
       .catch((err) => {
-        console.error("Failed to fetch theaters:", err);
         toast.error("Failed to load your theaters");
       });
   }, [ownerId]);
@@ -32,23 +31,23 @@ export function OwnerTheaters() {
 
   return (
     <div className="p-6" data-aos="fade-up">
-      <h1 className="text-3xl font-bold mb-6 text-indigo-700 flex items-center gap-2">
-        <FaTheaterMasks className="text-indigo-600" /> My Theaters
-      </h1>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-3xl font-bold mb-6 text-indigo-700 flex items-center gap-2">
+          <FaTheaterMasks className="text-indigo-600" /> My Theaters
+        </h1>
 
-      {/* Search Input */}
-      <div className="relative mb-6">
-        <FaSearch className="absolute top-3 left-3 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Search theaters..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
+        <div className="relative mb-6">
+          <FaSearch className="absolute top-3 left-3 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search theaters..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          />
+        </div>
       </div>
 
-      {/* Theater Cards */}
       {filteredTheaters.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredTheaters.map((theater) => (

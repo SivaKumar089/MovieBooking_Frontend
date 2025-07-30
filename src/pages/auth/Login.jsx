@@ -63,8 +63,8 @@ export default function Login() {
     } catch (err) {
       setLogin(false)
       const errorMsg =
-        err.response?.data?.detail || // DRF often sends this
-        err.response?.data?.error || // custom error format
+        err.response?.data?.detail || 
+        err.response?.data?.error || 
         "Login failed. Please check your credentials.";
 
       toast.error(errorMsg);
@@ -79,7 +79,7 @@ export default function Login() {
       >
         <h2 className="text-3xl font-bold text-center text-blue-600">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Email */}
+     
           <div>
             <label
               htmlFor="email_or_username"
@@ -105,7 +105,6 @@ export default function Login() {
             )}
           </div>
 
-          {/* Password */}
           <div className="relative">
             <label
               htmlFor="password"
@@ -134,10 +133,9 @@ export default function Login() {
               <p className="text-sm text-red-500 mt-1">{errors.password}</p>
             )}
 
-            {/* 🔽 Forgot Password */}
             <div className="text-right mt-2">
               <span
-                onClick={() => navigate("/auth/otp/request")} // adjust as needed
+                onClick={() => navigate("/auth/otp/request")}
                 className="text-sm text-blue-600 hover:underline cursor-pointer"
               >
                 Forgot Password?
@@ -145,7 +143,6 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={login}

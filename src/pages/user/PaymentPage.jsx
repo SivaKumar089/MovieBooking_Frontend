@@ -67,7 +67,6 @@ export default function PaymentPage() {
       toast.success("Seats booked successfully!");
       navigate("/user/my-tickets");
     } catch (err) {
-      console.error(err);
       toast.error("Booking failed!");
     } finally {
       setLoading(false);

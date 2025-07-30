@@ -39,7 +39,7 @@ export default function OTPVerify() {
     try {
       await axios.post("otp/verify/", { email, code });
       toast.success("OTP Verified");
-      navigate("/auth/password/reset", { state: { email } }); // Pass email to reset page
+      navigate("/auth/password/reset", { state: { email } });
     } catch {
       toast.error("Invalid OTP");
       setverifyingOtp(false)

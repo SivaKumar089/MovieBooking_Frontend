@@ -6,11 +6,11 @@ import { refreshToken as updateAccessToken, logout } from "../redux/authSlice";
 
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
-//const axiosInstance = axios.create({ baseURL });
+
 
 const axiosInstance = axios.create({
   baseURL,
-  withCredentials: true, // if using cookies
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(async (req) => {

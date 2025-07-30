@@ -141,7 +141,7 @@ const Signup = () => {
           Create Your Account
         </h2>
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Email + Verify Icon */}
+       
           <div className="relative">
             <label
               htmlFor="email"
@@ -190,7 +190,6 @@ const Signup = () => {
             )}
           </div>
 
-          {/* OTP Field */}
           {otpSent && !emailVerified && (
             <div className="flex flex-col sm:flex-row gap-2">
               <input
@@ -231,7 +230,6 @@ const Signup = () => {
             </div>
           )}
 
-          {/* Hidden Fields until email is verified */}
           {emailVerified && (
             <>
               <div>

@@ -20,44 +20,54 @@ export default function AdminOwners() {
 
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6" data-aos="fade-up">
-      <h1 className="text-3xl font-bold text-center sm:text-left">
-        🧑‍💼 Admin - Owners
-      </h1>
-
-      {/* Search Input */}
-      <div className="relative">
-        <FaSearch className="absolute top-3 left-3 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Search owners by email..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-3xl font-bold text-center sm:text-left">
+           Admin - Owners
+        </h1>
+        <div className="relative">
+          <FaSearch className="absolute top-3 left-3 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search owners by email..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
       </div>
 
-      {/* Owners Cards */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
         {owners
           .filter((o) => o.email.toLowerCase().includes(search.toLowerCase()))
           .map((owner) => (
             <div
               key={owner.id}
-              className="bg-white p-5 rounded-xl shadow hover:shadow-md transition-all duration-200"
+              className="bg-gradient-to-br from-white via-blue-50 to-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 p-6"
             >
-              <div className="space-y-2 text-gray-700 text-sm">
-                <p className="flex items-center gap-2 font-medium text-blue-700">
-                  <FaUserTie className="text-blue-600" />
-                  Username: {owner.username}
-                </p>
-                <p className="flex items-center gap-2">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="bg-blue-100 p-3 rounded-full">
+                  <FaUserTie className="text-blue-700 text-xl" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    {owner.username}
+                  </h2>
+                  <p className="text-xs text-gray-500 capitalize">
+                    {owner.role}
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-3 text-sm text-gray-700">
+                <div className="flex items-center gap-2">
                   <FaEnvelope className="text-blue-400" />
-                  Email: {owner.email}
-                </p>
-                <p className="flex items-center gap-2">
+                  <span>{owner.email}</span>
+                </div>
+                <div className="flex items-center gap-2">
                   <FaTheaterMasks className="text-purple-500" />
-                  Theaters: {owner.theaters_count || 0}
-                </p>
+                  <span className="font-medium">
+                    Theaters: {owner.theater_count || 0}
+                  </span>
+                </div>
               </div>
             </div>
           ))}

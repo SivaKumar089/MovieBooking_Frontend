@@ -3,22 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { refreshToken } from "../../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { refreshAccessToken } from "../../api/auth"; // ✅ Import from API file
+import { refreshAccessToken } from "../../api/auth";
 
 export default function TokenRefresh() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { refresh } = useSelector((state) => state.auth); // ✅ get refresh token
+  const { refresh } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const refreshTokenFunc = async () => {
       try {
-        const data = await refreshAccessToken(refresh); // API call
-        dispatch(refreshToken({ access: data.access })); // update Redux
-        toast.success("🔁 Access Token Refreshed");
+        const data = await refreshAccessToken(refresh);
+        dispatch(refreshToken({ access: data.access }));
+        toast.success("Access Token Refreshed");
         navigate("/auth/profile");
       } catch (error) {
-        toast.error("❌ Failed to refresh token. Please login again.");
+        toast.error("Failed to refresh token. Please login again.");
         navigate("/auth/loginpage");
       }
     };

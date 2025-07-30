@@ -84,7 +84,7 @@ export function AddMovie() {
     >
       <h1 className="text-3xl font-bold text-green-700 mb-4">➕ Add Movie</h1>
 
-      {/* Theater Select */}
+     
       <div>
         <label className="block text-gray-700 font-semibold mb-1">
           Select Theater
@@ -112,7 +112,7 @@ export function AddMovie() {
         )}
       </div>
 
-      {/* Title */}
+     
       <div>
         <label className="block text-gray-700 font-semibold mb-1">Title</label>
         <input
@@ -129,7 +129,6 @@ export function AddMovie() {
         )}
       </div>
 
-      {/* Duration */}
       <div>
         <label className="block text-gray-700 font-semibold mb-1">
           Duration (in minutes)
@@ -151,7 +150,6 @@ export function AddMovie() {
         )}
       </div>
 
-      {/* Language */}
       <div>
         <label className="block text-gray-700 font-semibold mb-1">
           Language
@@ -170,7 +168,6 @@ export function AddMovie() {
         )}
       </div>
 
-      {/* Release Date */}
       <div>
         <label className="block text-gray-700 font-semibold mb-1">
           Release Date
@@ -188,7 +185,6 @@ export function AddMovie() {
         )}
       </div>
 
-      {/* Description */}
       <div>
         <label className="block text-gray-700 font-semibold mb-1">
           Description

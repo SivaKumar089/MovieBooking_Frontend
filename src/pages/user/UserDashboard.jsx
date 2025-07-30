@@ -28,13 +28,11 @@ export default function UserDashboard() {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
       <aside
         className={`fixed md:sticky top-0 left-0 z-30 h-full md:h-screen bg-white w-64 border-r shadow-md p-5 space-y-6 transition-transform duration-300 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
-        {/* Mobile Header */}
         <div className="flex items-center justify-between mb-4 md:hidden">
           <h2 className="text-xl font-bold text-blue-700">User Panel</h2>
           <FaTimes
@@ -62,16 +60,12 @@ export default function UserDashboard() {
           ))}
         </nav>
       </aside>
-
-      {/* Mobile Toggle Button */}
       <button
         className="fixed top-4 left-4 z-40 text-gray-700 md:hidden cursor-pointer"
         onClick={toggleSidebar}
       >
         <FaBars size={24} />
       </button>
-
-      {/* Main Content */}
       <main className="flex-1 p-4 md:p-6 w-full overflow-x-auto transition-all duration-300">
         <div className="w-full max-w-full">{currentComponent}</div>
       </main>

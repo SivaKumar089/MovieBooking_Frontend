@@ -9,7 +9,6 @@ export default function CancelTicket() {
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.access);
 
-  // Get ticket details passed from previous page
   const { ticketId } = location.state;
   const ticketPrice = 100;
   const cancelFee = ticketPrice * 0.25;
@@ -28,7 +27,7 @@ export default function CancelTicket() {
       toast.success("Ticket cancelled successfully!");
       navigate("/user/my-tickets");
     } catch (err) {
-      console.error(err);
+     
       toast.error("Cancellation failed.");
     }
   };

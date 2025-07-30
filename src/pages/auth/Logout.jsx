@@ -24,7 +24,7 @@ export default function Logout() {
   };
 
   const handleBack = () => {
-    navigate(-1); // Go back one page
+    navigate(-1); 
   };
 
   return (

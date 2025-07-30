@@ -14,50 +14,52 @@ export default function AdminUsers() {
   }, []);
 
   return (
-    <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6" data-aos="fade-up">
-      <h1 className="text-3xl font-bold text-center sm:text-left">
-        👤 Admin - Users
-      </h1>
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-8" data-aos="fade-up">
 
-      {/* Search Input */}
-      <div className="relative">
-        <FaSearch className="absolute top-3 left-3 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Search users by email..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-3xl font-bold text-gray-800">👤 Admin - Users</h1>
+        <div className="relative mt-4 sm:mt-0 w-full sm:w-1/2">
+          <FaSearch className="absolute top-3 left-3 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search users by email..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          />
+        </div>
       </div>
 
-      {/* User Cards */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {users
           .filter((u) => u.email.toLowerCase().includes(search.toLowerCase()))
           .map((user) => (
             <div
               key={user.id}
-              className="bg-white p-5 rounded-xl shadow hover:shadow-md transition-all duration-200"
+              className="bg-gradient-to-br from-white via-blue-50 to-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 p-6"
             >
-              <div className="space-y-2 text-gray-700 text-sm">
-                <p className="flex items-center gap-2 font-medium text-blue-700">
-                  <FaUser className="text-blue-600" />
-                  Username: {user.username}
-                </p>
-                <p className="flex items-center gap-2">
-                  <FaEnvelope className="text-blue-500" />
-                  Email: {user.email}
-                </p>
-                <p className="flex items-center gap-2">
-                  <FaUserShield className="text-green-600" />
-                  Role: {user.role}
-                </p>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="bg-blue-100 p-3 rounded-full">
+                  <FaUser className="text-blue-700 text-xl" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    {user.username}
+                  </h2>
+                  <p className="text-xs text-gray-500">{user.email}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 text-sm text-gray-600">
+                <FaUserShield className="text-green-600" />
+                <span className="capitalize">
+                  Role:{" "}
+                  <span className="font-medium text-gray-800">{user.role}</span>
+                </span>
               </div>
             </div>
           ))}
       </div>
-
       {users.length === 0 && (
         <p className="text-center text-gray-500">No users found.</p>
       )}

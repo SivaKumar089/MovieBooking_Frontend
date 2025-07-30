@@ -77,20 +77,3 @@ export default function GetMovies() {
     </div>
   );
 }
-
-
-
-
-  // useEffect(() => {
-  //   const fetchShows = async () => {
-  //     try {
-  //       const url = movieId ? `shows/?movie=${movieId}` : "shows/";
-  //       const res = await axios.get(url);
-  //       setShows(res.data);
-  //     } catch (error) {
-  //       console.error("Error fetching shows:", error);
-  //     }
-  //   };
-
-  //   fetchShows();
-  // }, [movieId])

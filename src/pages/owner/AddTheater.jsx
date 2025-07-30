@@ -53,7 +53,6 @@ export function AddTheater() {
     >
       <h1 className="text-3xl font-bold text-green-700">➕ Add Theater</h1>
 
-      {/* Name Field */}
       <div>
         <label className="block text-gray-700 font-semibold mb-1">Name</label>
         <input
@@ -70,7 +69,6 @@ export function AddTheater() {
         )}
       </div>
 
-      {/* Location Field */}
       <div>
         <label className="block text-gray-700 font-semibold mb-1">
           Location

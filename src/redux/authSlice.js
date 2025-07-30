@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { jwtDecode } from "jwt-decode";  // ✅ Correct import
+import { jwtDecode } from "jwt-decode";
 
 const authSlice = createSlice({
   name: "auth",
@@ -11,7 +11,7 @@ const authSlice = createSlice({
   reducers: {
     loginSuccess: (state, action) => {
       const { access, refresh } = action.payload;
-      state.user = jwtDecode(access); // ✅ Correct usage
+      state.user = jwtDecode(access);
       state.access = access;
       state.refresh = refresh;
     },

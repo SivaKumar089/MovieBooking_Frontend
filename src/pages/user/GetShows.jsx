@@ -47,12 +47,11 @@ export default function GetShows() {
             key={s.id}
             className="p-5 bg-white rounded-2xl shadow-lg border hover:shadow-xl transition"
           >
-            {/* Movie Title */}
+
             <h2 className="text-xl font-bold mb-3 text-gray-800 flex items-center gap-2">
               <FaFilm className="text-indigo-500" /> {s.movie_name}
             </h2>
 
-            {/* Show Info */}
             <div className="text-sm text-gray-600 space-y-2 mb-4">
               <p className="flex items-center gap-2">
                 <FaTheaterMasks className="text-indigo-400" />
@@ -70,7 +69,7 @@ export default function GetShows() {
                 {s.end_time}
               </p>
 
-              {/* Seat Statistics */}
+
               <p className="flex items-center gap-2">
                 <FaChair className="text-green-500" />
                 <span className="font-medium text-gray-700">Total:</span>{" "}
@@ -91,8 +90,6 @@ export default function GetShows() {
                 {s.available_seats}
               </p>
             </div>
-
-            {/* Button */}
             <button
               onClick={() => handleViewSeat(s.id)}
               className="flex items-center justify-center gap-2 w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition cursor-pointer"
