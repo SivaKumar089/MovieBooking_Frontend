@@ -66,7 +66,7 @@ export function AddMovie() {
         duration_minutes: "",
         language: "",
         release_date: "",
-        theater:0,
+        theater:"",
       });
       setErrors({});
     } catch (error) {
@@ -92,18 +92,18 @@ export function AddMovie() {
         <select
           value={form.theater}
           onChange={(e) =>
-            setForm({ ...form, theater: parseInt(e.target.value) })
+            setForm({ ...form, theater: e.target.value})
           }
           className={`w-full px-4 py-2 border ${
             errors.theater ? "border-red-500" : "border-gray-300"
           } rounded focus:outline-none focus:ring-2 focus:ring-green-400`}
         >
-          <option value="" disabled hidden>
+          <option value="">
             -- Select a theater --
           </option>
           {theaters.map((theater) => (
             <option key={theater.id} value={theater.id}>
-              {theater.name} - {theater.location} {theater.id}
+              {theater.name} - {theater.location} 
             </option>
           ))}
         </select>
