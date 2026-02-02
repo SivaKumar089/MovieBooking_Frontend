@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 import { loginSuccess } from "../../redux/authSlice";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
@@ -52,11 +52,11 @@ export default function Login() {
 
       const role = res.data?.user?.role || res.data?.role;
       if (role === "admin") {
-        navigate("/admin/adminpanel");
+        navigate("/admin/adminpanel",{replace:true});
       } else if (role === "owner") {
-        navigate("/owner/theaters");
+        navigate("/owner/theaters", { replace: true });
       } else if (role === "user") {
-        navigate("/user/theaters");
+        navigate("/user/theaters", { replace: true });
       } else {
         navigate("/profile");
       }
