@@ -36,16 +36,20 @@ export default function ResetPassword() {
 
     setSubmitting(true);
     try {
-      await axios.post("password/reset/", {
-        email: formData.email,
+      const res = await axios.post("password/reset/", {
+        email: formData.email.trim(),
         new_password: formData.new_password,
       });
 
-      toast.success("Password reset successful! Sign in with your new credentials.");
+      toast.success(res.data?.message || "Password reset successful! Sign in with your new credentials.");
       navigate("/auth/login", { replace: true });
     } catch (err) {
       const errorMsg =
-        err.response?.data?.error || "Password reset failed. Please try again.";
+        err.response?.data?.error ||
+        err.response?.data?.detail ||
+        (typeof err.response?.data === "string" && !err.response.data.includes("<!DOCTYPE") ? err.response.data : "") ||
+        err.message ||
+        "Password reset failed. Please try again.";
       toast.error(errorMsg);
     } finally {
       setSubmitting(false);

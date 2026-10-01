@@ -28,6 +28,24 @@ export default function OTPVerify() {
     return "";
   };
 
+  const [resending, setResending] = useState(false);
+
+  const handleResend = async () => {
+    if (!email) return;
+    setResending(true);
+    try {
+      const res = await axios.post("otp/request/", { email });
+      toast.success(res.data?.message || "New security code sent to your email!");
+      setCode("");
+      setError("");
+    } catch (err) {
+      const msg = err.response?.data?.error || "Failed to resend security code.";
+      toast.error(msg);
+    } finally {
+      setResending(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationError = validate();
@@ -37,12 +55,19 @@ export default function OTPVerify() {
     }
 
     setVerifyingOtp(true);
+    setError("");
     try {
-      await axios.post("otp/verify/", { email, code });
-      toast.success("Identity verified! Set your new password.");
-      navigate("/auth/password/reset", { state: { email } });
-    } catch {
-      toast.error("Invalid or expired verification code.");
+      const res = await axios.post("otp/verify/", { email, code: code.trim() });
+      toast.success(res.data?.message || "Identity verified! Set your new password.");
+      navigate("/auth/password/reset", { state: { email: res.data?.email || email } });
+    } catch (err) {
+      const msg =
+        err.response?.data?.error ||
+        err.response?.data?.detail ||
+        "Invalid or expired verification code. Please request a new code.";
+      toast.error(msg);
+      setError(msg);
+    } finally {
       setVerifyingOtp(false);
     }
   };
@@ -116,6 +141,17 @@ export default function OTPVerify() {
               </>
             )}
           </button>
+
+          <div className="text-center pt-2">
+            <button
+              type="button"
+              disabled={resending}
+              onClick={handleResend}
+              className="text-xs text-slate-400 hover:text-amber-400 transition font-medium cursor-pointer underline disabled:opacity-50"
+            >
+              {resending ? "Dispatching new code..." : "Didn't receive code? Resend OTP"}
+            </button>
+          </div>
         </form>
 
         <div className="mt-8 pt-6 border-t border-slate-800/80 text-center text-xs text-slate-500 flex items-center justify-center gap-1.5">

@@ -10,29 +10,42 @@ export default function OTPRequest() {
   const navigate = useNavigate();
   const [sendingOtp, setSendingOtp] = useState(false);
 
-  const validateEmail = () => {
-    if (!email.trim()) return "Email is required.";
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) return "Enter a valid email address.";
+  const validateInput = () => {
+    const val = email.trim();
+    if (!val) return "Email or username is required.";
+    if (val.includes("@")) {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(val)) return "Please enter a valid email address.";
+    } else if (val.length < 3) {
+      return "Username must be at least 3 characters.";
+    }
     return "";
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationError = validateEmail();
+    const validationError = validateInput();
     if (validationError) {
       setError(validationError);
       return;
     }
 
     setSendingOtp(true);
+    setError("");
     try {
-      await axios.post("otp/request/", { email });
-      toast.success("Security code dispatched to your email!");
-      navigate("/auth/otp/verify", { state: { email } });
+      const res = await axios.post("otp/request/", { email: email.trim() });
+      const targetEmail = res.data?.email || email.trim();
+      toast.success(res.data?.message || "Security code dispatched to your email!");
+      navigate("/auth/otp/verify", { state: { email: targetEmail } });
     } catch (err) {
-      const msg = err.response?.data?.error || "Error sending recovery code";
+      const msg =
+        err.response?.data?.error ||
+        err.response?.data?.detail ||
+        (typeof err.response?.data === "string" && !err.response.data.includes("<!DOCTYPE") ? err.response.data : "") ||
+        err.message ||
+        "Error sending OTP code. Please check your credentials.";
       toast.error(msg);
+      setError(msg);
     } finally {
       setSendingOtp(false);
     }
@@ -70,19 +83,19 @@ export default function OTPRequest() {
               htmlFor="email"
               className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
             >
-              Registered Email
+              Registered Email or Username
             </label>
             <div className="relative">
               <FaEnvelope className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none" />
               <input
                 id="email"
-                type="email"
+                type="text"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
                   setError("");
                 }}
-                placeholder="name@example.com"
+                placeholder="name@example.com or username"
                 className={`w-full bg-slate-950/80 border ${
                   error ? "border-red-500" : "border-slate-800 focus:border-amber-400"
                 } text-slate-100 pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition placeholder:text-slate-500`}
