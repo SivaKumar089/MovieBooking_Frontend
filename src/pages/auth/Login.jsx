@@ -1,10 +1,19 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { loginSuccess } from "../../redux/authSlice";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import {
+  FaEye,
+  FaEyeSlash,
+  FaLock,
+  FaEnvelope,
+  FaFilm,
+  FaArrowRight,
+  FaSpinner,
+  FaShieldAlt,
+} from "react-icons/fa";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -15,8 +24,7 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [login, setLogin] = useState(false);
-
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -25,145 +33,191 @@ export default function Login() {
 
   const validate = () => {
     const newErrors = {};
-    if (!credentials.email_or_username) {
+    if (!credentials.email_or_username.trim()) {
       newErrors.email_or_username = "Email or username is required";
     }
-
-    if (!credentials.password) newErrors.password = "Password is required";
-
+    if (!credentials.password) {
+      newErrors.password = "Password is required";
+    }
     return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLogin(true)
     const formErrors = validate();
     if (Object.keys(formErrors).length > 0) {
-      setLogin(false)
       setErrors(formErrors);
       return;
     }
 
+    setLoading(true);
     try {
       const res = await axios.post("login/", credentials);
-      setLogin(false)
       dispatch(loginSuccess(res.data));
-      toast.success("Logged in successfully");
+      toast.success("Welcome back to SeatLock Cinema! 🎬");
 
       const role = res.data?.user?.role || res.data?.role;
       if (role === "admin") {
-        navigate("/admin/adminpanel",{replace:true});
+        navigate("/admin/adminpanel", { replace: true });
       } else if (role === "owner") {
         navigate("/owner/theaters", { replace: true });
-      } else if (role === "user") {
-        navigate("/user/theaters", { replace: true });
       } else {
-        navigate("/profile");
+        navigate("/user/movies", { replace: true });
       }
     } catch (err) {
-      setLogin(false)
       const errorMsg =
-        err.response?.data?.detail || 
-        err.response?.data?.error || 
-        "Login failed. Please check your credentials.";
-
+        err.response?.data?.detail ||
+        err.response?.data?.error ||
+        "Invalid credentials. Please verify your email and password.";
       toast.error(errorMsg);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-slate-950 text-slate-100 px-4 py-12 relative overflow-hidden">
+      {/* Cinematic Ambient Glow Spheres */}
+      <div className="absolute top-1/4 left-1/3 -translate-x-1/2 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/3 translate-x-1/2 w-[400px] h-[400px] bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
       <div
         data-aos="fade-up"
-        className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl space-y-6 border border-gray-200"
+        className="w-full max-w-md bg-slate-900/85 backdrop-blur-2xl rounded-3xl p-8 sm:p-10 border border-slate-800 shadow-2xl relative z-10"
       >
-        <h2 className="text-3xl font-bold text-center text-blue-600">Login</h2>
-        <form onSubmit={handleSubmit} className="space-y-5">
-     
+        {/* Cinema Brand Header */}
+        <div className="flex flex-col items-center text-center mb-8">
+          <Link to="/" className="flex items-center gap-2.5 mb-3 group">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/25 group-hover:scale-105 transition">
+              <FaLock className="text-white text-lg" />
+            </div>
+            <span className="text-2xl font-black tracking-tight text-white">
+              Seat<span className="text-amber-400">Lock</span>
+            </span>
+          </Link>
+          <span className="text-xs uppercase tracking-widest font-bold text-amber-400/90 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+            Cinema Pass Access
+          </span>
+          <h1 className="text-xl sm:text-2xl font-bold text-white mt-3">
+            Sign In to Your Account
+          </h1>
+          <p className="text-xs text-slate-400 mt-1">
+            Access VIP reservations, tickets, and screenings
+          </p>
+        </div>
+
+        {/* Login Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="email_or_username"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
             >
-              Email
+              Email or Username
             </label>
-            <input
-              id="email_or_username"
-              name="email_or_username"
-              type="text"
-              value={credentials.email_or_username}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              className={`w-full px-4 py-2 border ${
-                errors.email_or_username ? "border-red-500" : "border-gray-300"
-              } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            />
+            <div className="relative">
+              <FaEnvelope className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none" />
+              <input
+                id="email_or_username"
+                name="email_or_username"
+                type="text"
+                value={credentials.email_or_username}
+                onChange={handleChange}
+                placeholder="name@example.com or username"
+                className={`w-full bg-slate-950/80 border ${
+                  errors.email_or_username
+                    ? "border-red-500/80 focus:border-red-400"
+                    : "border-slate-800 focus:border-amber-400"
+                } text-slate-100 pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition placeholder:text-slate-500`}
+              />
+            </div>
             {errors.email_or_username && (
-              <p className="text-sm text-red-500 mt-1">
+              <p className="text-xs text-red-400 mt-1 font-medium">
                 {errors.email_or_username}
               </p>
             )}
           </div>
 
-          <div className="relative">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              value={credentials.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-              className={`w-full px-4 py-2 border ${
-                errors.password ? "border-red-500" : "border-gray-300"
-              } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10`}
-            />
-            <span
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-9 cursor-pointer text-gray-500"
-            >
-              {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
-            </span>
-            {errors.password && (
-              <p className="text-sm text-red-500 mt-1">{errors.password}</p>
-            )}
-
-            <div className="text-right mt-2">
-              <span
-                onClick={() => navigate("/auth/otp/request")}
-                className="text-sm text-blue-600 hover:underline cursor-pointer"
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <label
+                htmlFor="password"
+                className="block text-xs font-semibold text-slate-300 uppercase tracking-wider"
+              >
+                Password
+              </label>
+              <Link
+                to="/auth/otp/request"
+                className="text-xs text-amber-400 hover:text-amber-300 transition hover:underline"
               >
                 Forgot Password?
-              </span>
+              </Link>
             </div>
+            <div className="relative">
+              <FaLock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none" />
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={credentials.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className={`w-full bg-slate-950/80 border ${
+                  errors.password
+                    ? "border-red-500/80 focus:border-red-400"
+                    : "border-slate-800 focus:border-amber-400"
+                } text-slate-100 pl-10 pr-10 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition placeholder:text-slate-500`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 cursor-pointer p-0.5"
+                aria-label="Toggle password visibility"
+              >
+                {showPassword ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
+              </button>
+            </div>
+            {errors.password && (
+              <p className="text-xs text-red-400 mt-1 font-medium">
+                {errors.password}
+              </p>
+            )}
           </div>
 
           <button
             type="submit"
-            disabled={login}
-            className={`w-full py-2 rounded-lg font-semibold transition duration-200 text-white ${
-              login
-                ? "bg-blue-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
-            }`}
+            disabled={loading}
+            className="w-full mt-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold py-3.5 rounded-xl shadow-lg shadow-amber-500/20 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {login?"Login...":"Login"}
+            {loading ? (
+              <>
+                <FaSpinner className="animate-spin text-base" />
+                <span>Authorizing...</span>
+              </>
+            ) : (
+              <>
+                <span>Sign In to Cinema</span>
+                <FaArrowRight size={12} />
+              </>
+            )}
           </button>
         </form>
-        <p className="text-center text-sm text-gray-500">
-          I don't have an account?{" "}
-          <a
-            href="signup"
-            className="text-blue-600 font-medium hover:underline"
+
+        {/* Footer Link */}
+        <div className="mt-8 pt-6 border-t border-slate-800/80 text-center text-xs text-slate-400">
+          Don't have a cinema membership yet?{" "}
+          <Link
+            to="/auth/signup"
+            className="font-bold text-amber-400 hover:text-amber-300 ml-1 transition hover:underline"
           >
-            Signup
-          </a>
-        </p>
+            Register Now
+          </Link>
+        </div>
+
+        <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-slate-600">
+          <FaShieldAlt className="text-emerald-500" />
+          <span>Encrypted Session • Zero Concurrency Conflict</span>
+        </div>
       </div>
     </div>
   );

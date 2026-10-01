@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import axios from "../../utils/axios";
-import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   FaCheckCircle,
   FaEye,
   FaEyeSlash,
-  FaTimesCircle,
-  FaExclamationCircle,
+  FaLock,
+  FaEnvelope,
+  FaUser,
+  FaTheaterMasks,
+  FaTicketAlt,
+  FaArrowRight,
+  FaSpinner,
+  FaShieldAlt,
+  FaKey,
 } from "react-icons/fa";
 
 const Signup = () => {
@@ -16,19 +22,17 @@ const Signup = () => {
     username: "",
     email: "",
     password: "",
-    role: "",
+    role: "user",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [code, setOtp] = useState("");
   const [emailVerified, setEmailVerified] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [verifyingOtp, setVerifyingOtp] = useState(false);
-  const [sendingOtp, setsendingOtp] = useState(false);
-  const [sign, setSign] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,72 +40,57 @@ const Signup = () => {
   };
 
   const handleSendOtp = async () => {
-    setMessage("");
-    setError("");
-    setsendingOtp(true);
-    if (!formData.email) {
-      setError("Please enter your email.");
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setErrors((prev) => ({ ...prev, email: "Please enter a valid email address." }));
       return;
     }
 
+    setSendingOtp(true);
     try {
       const response = await axios.post("email/request/", {
         email: formData.email,
       });
-      setMessage(response.data.message || "OTP sent successfully.");
+      toast.success(response.data.message || "Verification code sent to your email!");
       setOtpSent(true);
-      setsendingOtp(false);
     } catch (err) {
-      setError(err.response?.data?.error || "Failed to send OTP.");
-      setsendingOtp(false);
+      toast.error(err.response?.data?.error || "Failed to send verification code.");
+    } finally {
+      setSendingOtp(false);
     }
   };
 
   const handleVerifyOtp = async () => {
-    setMessage("");
-    setError("");
-    setVerifyingOtp(true);
-    if (!code) {
-      setError("Please enter the OTP.");
+    if (!code || code.length < 4) {
+      toast.error("Please enter the verification code.");
       return;
     }
 
+    setVerifyingOtp(true);
     try {
-      const response = await axios.post("email/verify/", {
+      await axios.post("email/verify/", {
         email: formData.email,
         code,
       });
       setEmailVerified(true);
-
-      setMessage("Email verified successfully.");
+      toast.success("Email verified successfully! Complete your VIP profile.");
     } catch (err) {
-      setError("Invalid OTP.");
+      toast.error(err.response?.data?.error || "Invalid or expired verification code.");
+    } finally {
       setVerifyingOtp(false);
     }
   };
 
   const validateForm = () => {
-    const { username, email, password, role } = formData;
+    const { username, password, role } = formData;
     const newErrors = {};
 
     if (!username.trim()) newErrors.username = "Name is required.";
-
-    if (!email.trim()) {
-      newErrors.email = "Email is required.";
-    } else {
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(email)) {
-        newErrors.email = "Enter a valid email.";
-      }
-    }
-
     if (!password) {
       newErrors.password = "Password is required.";
     } else if (password.length < 6) {
       newErrors.password = "Password must be at least 6 characters.";
     }
-
-    if (!role) newErrors.role = "Please select a role.";
+    if (!role) newErrors.role = "Please select a cinema role.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -109,62 +98,92 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSign(true);
-    if (!validateForm()) {
-      setSign(false);
+    if (!emailVerified) {
+      toast.error("Please verify your email with the OTP before continuing.");
       return;
     }
 
+    if (!validateForm()) return;
+
+    setSubmitting(true);
     try {
       await axios.post("signup/", formData);
-      setSign(false);
-      toast.success("Signup successful! Login now.");
+      toast.success("Registration successful! Welcome to SeatLock Cinema.");
       navigate("/auth/login");
     } catch (err) {
-      setSign(false);
-      
       const errorMsg =
         err.response?.data?.detail ||
         Object.values(err.response?.data || {})[0] ||
         "Signup failed. Please try again.";
       toast.error(errorMsg);
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
-    <div
-      data-aos="fade-up"
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-200 p-4"
-    >
-      <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl px-8 py-10 space-y-6 border border-gray-100">
-        <h2 className="text-3xl font-extrabold text-center text-blue-700">
-          Create Your Account
-        </h2>
+    <div className="min-h-screen flex items-center justify-center bg-slate-950 text-slate-100 px-4 py-12 relative overflow-hidden">
+      {/* Ambient background glows */}
+      <div className="absolute top-1/4 left-1/3 -translate-x-1/2 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/3 translate-x-1/2 w-[400px] h-[400px] bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div
+        data-aos="fade-up"
+        className="w-full max-w-lg bg-slate-900/85 backdrop-blur-2xl rounded-3xl p-8 sm:p-10 border border-slate-800 shadow-2xl relative z-10"
+      >
+        {/* Cinema Brand Header */}
+        <div className="flex flex-col items-center text-center mb-8">
+          <Link to="/" className="flex items-center gap-2.5 mb-3 group">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/25 group-hover:scale-105 transition">
+              <FaLock className="text-white text-lg" />
+            </div>
+            <span className="text-2xl font-black tracking-tight text-white">
+              Seat<span className="text-amber-400">Lock</span>
+            </span>
+          </Link>
+          <span className="text-xs uppercase tracking-widest font-bold text-amber-400/90 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+            Cinema Pass Registration
+          </span>
+          <h1 className="text-xl sm:text-2xl font-bold text-white mt-3">
+            Create Your Cinema Account
+          </h1>
+          <p className="text-xs text-slate-400 mt-1">
+            Join SeatLock for instant VIP recliners & seamless box-office management
+          </p>
+        </div>
+
+        {/* Form Container */}
         <form onSubmit={handleSubmit} className="space-y-5">
-       
-          <div className="relative">
+          {/* Step 1: Email & OTP Verification */}
+          <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
             >
               Email Address
             </label>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                className={`flex-1 px-4 py-2 border rounded-xl focus:ring-2 focus:outline-none shadow-sm ${
-                  emailVerified
-                    ? "border-green-500 bg-gray-100"
-                    : "border-gray-300 focus:ring-blue-400"
-                }`}
-                disabled={emailVerified || sendingOtp}
-              />
-              {!otpSent && !emailVerified && (
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <FaEnvelope className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none" />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="you@example.com"
+                  disabled={emailVerified || sendingOtp}
+                  className={`w-full bg-slate-950/80 border ${
+                    emailVerified
+                      ? "border-emerald-500/60 bg-emerald-950/20 text-emerald-300"
+                      : errors.email
+                      ? "border-red-500"
+                      : "border-slate-800 focus:border-amber-400"
+                  } text-slate-100 pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition placeholder:text-slate-500 disabled:opacity-80`}
+                />
+              </div>
+
+              {!emailVerified && (
                 <button
                   type="button"
                   onClick={handleSendOtp}
@@ -173,166 +192,219 @@ const Signup = () => {
                     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) ||
                     sendingOtp
                   }
-                  className={`px-4 py-2 rounded-xl  text-white transition ${
-                    !formData.email ||
-                    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) ||
-                    sendingOtp
-                      ? "bg-blue-300 cursor-not-allowed"
-                      : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
-                  }`}
+                  className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-4 py-3 rounded-xl text-xs transition duration-200 whitespace-nowrap cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5"
                 >
-                  {sendingOtp ? "Sending..." : "Send OTP"}
+                  {sendingOtp ? (
+                    <>
+                      <FaSpinner className="animate-spin text-xs" />
+                      <span>Sending...</span>
+                    </>
+                  ) : otpSent ? (
+                    "Resend"
+                  ) : (
+                    "Send OTP"
+                  )}
                 </button>
               )}
             </div>
+
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              <p className="text-xs text-red-400 mt-1 font-medium">{errors.email}</p>
+            )}
+
+            {emailVerified && (
+              <div className="flex items-center gap-1.5 text-xs text-emerald-400 mt-1.5 font-medium">
+                <FaCheckCircle size={12} /> Email successfully verified
+              </div>
             )}
           </div>
 
+          {/* OTP Input Field */}
           {otpSent && !emailVerified && (
-            <div className="flex flex-col sm:flex-row gap-2">
-              <input
-                type="text"
-                value={code}
-                onChange={(e) => {
-                  setOtp(e.target.value);
-                  setError("");
-                }}
-                placeholder="Enter OTP"
-                maxLength={6}
-                className="w-full sm:flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-              />
-
-              <button
-                type="button"
-                onClick={handleVerifyOtp}
-                disabled={code.length !== 6 || verifyingOtp}
-                className={`w-full sm:w-auto px-4 py-2 rounded-xl text-white transition ${
-                  code.length !== 6 || verifyingOtp
-                    ? "bg-green-300 cursor-not-allowed"
-                    : "bg-green-600 hover:bg-green-700 cursor-pointer"
-                }`}
-              >
-                {verifyingOtp ? "Verifying..." : "Verify"}
-              </button>
+            <div className="bg-slate-950/60 border border-slate-800/80 p-4 rounded-2xl space-y-3">
+              <label className="block text-xs font-semibold text-amber-400 uppercase tracking-wider">
+                Enter 6-Digit Verification Code
+              </label>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <FaKey className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none" />
+                  <input
+                    type="text"
+                    value={code}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="Enter code"
+                    maxLength={6}
+                    className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 text-slate-100 pl-10 pr-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 font-mono tracking-widest text-center"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleVerifyOtp}
+                  disabled={!code || verifyingOtp}
+                  className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold px-5 py-2.5 rounded-xl text-xs transition duration-200 cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
+                >
+                  {verifyingOtp ? <FaSpinner className="animate-spin" /> : <FaCheckCircle />}
+                  Verify
+                </button>
+              </div>
+              <p className="text-[11px] text-slate-500">
+                Check your inbox (and spam folder) for the confirmation code.
+              </p>
             </div>
           )}
 
-          {message && (
-            <div className="flex items-center text-green-600 text-sm gap-2">
-              <FaCheckCircle size={16} /> {message}
-            </div>
-          )}
-          {error && (
-            <div className="flex items-center text-red-600 text-sm gap-2">
-              <FaExclamationCircle size={16} /> {error}
-            </div>
-          )}
-
+          {/* Step 2: Profile & Role Selection */}
           {emailVerified && (
-            <>
+            <div className="space-y-4 pt-2">
+              {/* Full Name */}
               <div>
                 <label
                   htmlFor="username"
-                  className="block text-sm font-semibold text-gray-700 mb-1"
+                  className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
                 >
-                  Name
+                  Full Name / Username
                 </label>
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  value={formData.username}
-                  onChange={handleChange}
-                  placeholder="John Doe"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                />
+                <div className="relative">
+                  <FaUser className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none" />
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="e.g. Siva Kumar"
+                    className={`w-full bg-slate-950/80 border ${
+                      errors.username
+                        ? "border-red-500"
+                        : "border-slate-800 focus:border-amber-400"
+                    } text-slate-100 pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition`}
+                  />
+                </div>
                 {errors.username && (
-                  <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+                  <p className="text-xs text-red-400 mt-1 font-medium">{errors.username}</p>
                 )}
               </div>
 
-              <div className="relative">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-semibold text-gray-700 mb-1"
-                >
-                  Password
-                </label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  id="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                />
-                <span
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-9 cursor-pointer text-gray-500"
-                >
-                  {showPassword ? (
-                    <FaEyeSlash size={20} />
-                  ) : (
-                    <FaEye size={20} />
-                  )}
-                </span>
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-                )}
-              </div>
-
+              {/* Password */}
               <div>
                 <label
-                  htmlFor="role"
-                  className="block text-sm font-semibold text-gray-700 mb-1"
+                  htmlFor="password"
+                  className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
                 >
-                  Select Role
+                  Password (min. 6 characters)
                 </label>
-                <select
-                  id="role"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
-                >
-                  <option value="" disabled hidden>
-                    -- Select Role --
-                  </option>
-                  <option value="user">User</option>
-                  <option value="owner">Owner</option>
-                </select>
-                {errors.role && (
-                  <p className="text-red-500 text-sm mt-1">{errors.role}</p>
+                <div className="relative">
+                  <FaLock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none" />
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    className={`w-full bg-slate-950/80 border ${
+                      errors.password
+                        ? "border-red-500"
+                        : "border-slate-800 focus:border-amber-400"
+                    } text-slate-100 pl-10 pr-10 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 cursor-pointer p-0.5"
+                  >
+                    {showPassword ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-xs text-red-400 mt-1 font-medium">{errors.password}</p>
                 )}
               </div>
 
+              {/* Interactive Role Selector Cards */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                  Account Type
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <div
+                    onClick={() => setFormData({ ...formData, role: "user" })}
+                    className={`p-3.5 rounded-2xl border cursor-pointer transition ${
+                      formData.role === "user"
+                        ? "bg-amber-500/15 border-amber-500/60 shadow-lg shadow-amber-500/10"
+                        : "bg-slate-950/60 border-slate-800 hover:border-slate-700"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      <FaTicketAlt
+                        className={formData.role === "user" ? "text-amber-400" : "text-slate-500"}
+                      />
+                      <span className="text-xs font-bold text-white">Movie Goer</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 leading-tight">
+                      Book VIP recliners, IMAX screens & tickets
+                    </p>
+                  </div>
+
+                  <div
+                    onClick={() => setFormData({ ...formData, role: "owner" })}
+                    className={`p-3.5 rounded-2xl border cursor-pointer transition ${
+                      formData.role === "owner"
+                        ? "bg-amber-500/15 border-amber-500/60 shadow-lg shadow-amber-500/10"
+                        : "bg-slate-950/60 border-slate-800 hover:border-slate-700"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      <FaTheaterMasks
+                        className={formData.role === "owner" ? "text-amber-400" : "text-slate-500"}
+                      />
+                      <span className="text-xs font-bold text-white">Theater Owner</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 leading-tight">
+                      Manage cinemas, screens, shows & schedules
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Submit Button */}
               <button
                 type="submit"
-                disabled={sign}
-                className={`w-full bg-blue-600 text-white py-2 rounded-xl font-semibold transition duration-300 shadow-md ${
-                  sign
-                    ? "bg-blue-400 cursor-not-allowed"
-                    : "hover:bg-blue-700 cursor-pointer"
-                }`}
+                disabled={submitting}
+                className="w-full mt-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold py-3.5 rounded-xl shadow-lg shadow-amber-500/20 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer text-sm disabled:opacity-50"
               >
-                {sign ? "Signing Up..." : "Signup"}
+                {submitting ? (
+                  <>
+                    <FaSpinner className="animate-spin text-base" />
+                    <span>Creating Cinema Account...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Complete VIP Registration</span>
+                    <FaArrowRight size={12} />
+                  </>
+                )}
               </button>
-            </>
+            </div>
           )}
         </form>
 
-        <p className="text-center text-sm text-gray-500">
+        {/* Footer */}
+        <div className="mt-8 pt-6 border-t border-slate-800/80 text-center text-xs text-slate-400">
           Already have an account?{" "}
-          <a href="login" className="text-blue-600 font-medium hover:underline">
-            Login
-          </a>
-        </p>
-      </div>
+          <Link
+            to="/auth/login"
+            className="font-bold text-amber-400 hover:text-amber-300 ml-1 transition hover:underline"
+          >
+            Sign In Here
+          </Link>
+        </div>
 
-      <ToastContainer position="top-right" autoClose={3000} />
+        <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-slate-600">
+          <FaShieldAlt className="text-emerald-500" />
+          <span>SeatLock Secure Verification • ACID Guaranteed</span>
+        </div>
+      </div>
     </div>
   );
 };

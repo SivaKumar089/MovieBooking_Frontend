@@ -4,7 +4,8 @@ import dayjs from "dayjs";
 import store from "../redux/store";
 import { refreshToken as updateAccessToken, logout } from "../redux/authSlice";
 
-const baseURL = import.meta.env.VITE_BACKEND_URL;
+const rawBaseURL = import.meta.env.VITE_BACKEND_URL || "http://127.0.0.1:8000/";
+const baseURL = rawBaseURL.endsWith("/") ? rawBaseURL : `${rawBaseURL}/`;
 
 const axiosInstance = axios.create({
   baseURL,
