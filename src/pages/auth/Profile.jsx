@@ -97,7 +97,7 @@ export default function Profile() {
                 <FaLock />
               </div>
               <span className="font-extrabold text-base tracking-tight text-white">
-                Seat<span className="text-amber-400">Lock</span> Cinema
+                Book<span className="text-amber-400">it</span> Cinema
               </span>
             </div>
             <span className="text-[11px] font-mono font-bold text-amber-300 tracking-wider">
@@ -225,7 +225,7 @@ export default function Profile() {
           to="/auth/logout"
           className="w-full py-3 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-xs font-bold transition duration-200 flex items-center justify-center gap-2"
         >
-          <FaSignOutAlt /> Sign Out from SeatLock
+          <FaSignOutAlt /> Sign Out from Bookit
         </Link>
       </div>
     </div>

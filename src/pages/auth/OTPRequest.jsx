@@ -122,7 +122,7 @@ export default function OTPRequest() {
 
         <div className="mt-8 pt-6 border-t border-slate-800/80 text-center text-xs text-slate-500 flex items-center justify-center gap-1.5">
           <FaShieldAlt className="text-emerald-500" />
-          <span>SeatLock Identity Guard</span>
+          <span>Bookit Identity Guard</span>
         </div>
       </div>
     </div>

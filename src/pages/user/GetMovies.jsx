@@ -110,7 +110,7 @@ export default function GetMovies() {
             onClick={() => setSelectedGenre(g)}
             className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
               selectedGenre === g
-                ? "bg-amber-500 text-black shadow-md shadow-amber-500/20"
+                ? "bg-amber-500 text-slate-950 font-bold shadow-sm shadow-amber-500/15"
                 : "bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 hover:text-white"
             }`}
           >

@@ -121,21 +121,21 @@ export default function UserSeatLayout() {
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap items-center gap-4 text-xs bg-slate-900/90 border border-slate-800 px-4 py-2.5 rounded-xl">
+        <div className="flex flex-wrap items-center gap-4 text-xs bg-slate-900/90 border border-slate-800/80 px-4 py-2.5 rounded-xl">
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-md bg-slate-800 border border-emerald-500/50"></div>
+            <div className="w-4 h-4 rounded-md bg-slate-900 border border-slate-700"></div>
             <span className="text-slate-300">Available</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-md bg-amber-500 text-black font-bold"></div>
+            <div className="w-4 h-4 rounded-md bg-amber-500 text-slate-950 font-bold"></div>
             <span className="text-slate-300">Selected</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-md bg-slate-800 border border-slate-700 opacity-40"></div>
+            <div className="w-4 h-4 rounded-md bg-slate-950/60 border border-slate-800 opacity-40"></div>
             <span className="text-slate-500">Booked</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-md bg-sky-500"></div>
+            <div className="w-4 h-4 rounded-md bg-blue-600"></div>
             <span className="text-slate-300">My Ticket</span>
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function UserSeatLayout() {
       <div className="relative mb-12 mt-6">
         <div className="w-4/5 mx-auto h-3 screen-curve"></div>
         <div className="h-16 screen-glow flex items-center justify-center">
-          <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-sky-400/80 flex items-center gap-2">
+          <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-slate-300/80 flex items-center gap-2">
             <FaTv size={13} /> All Eyes This Way • Cinema Screen
           </span>
         </div>
@@ -155,7 +155,7 @@ export default function UserSeatLayout() {
       <div className="space-y-8 overflow-x-auto pb-4">
         {/* VIP Section */}
         <div>
-          <div className="flex items-center justify-between text-xs font-bold text-amber-400 uppercase tracking-wider mb-3 px-2 border-b border-amber-500/20 pb-1">
+          <div className="flex items-center justify-between text-xs font-bold text-amber-400/90 uppercase tracking-wider mb-3 px-2 border-b border-amber-500/20 pb-1">
             <span>👑 VIP Recliner Tier — ₹{show?.vip_price || 280}</span>
             <span className="text-[10px] text-slate-400 font-normal">Rows A & B</span>
           </div>
@@ -174,13 +174,13 @@ export default function UserSeatLayout() {
                     const isMine = myTickets.includes(seat.id);
                     const isSelected = selected.some((s) => s.id === seat.id);
 
-                    let seatStyle = "bg-slate-900 border border-amber-500/40 text-slate-300 hover:border-amber-400 hover:bg-slate-800 cursor-pointer";
+                    let seatStyle = "bg-slate-900 border border-amber-500/30 text-slate-300 hover:border-amber-400/70 hover:bg-slate-800 cursor-pointer";
                     if (seat.is_booked) {
                       seatStyle = isMine
-                        ? "bg-sky-500 text-white cursor-not-allowed border-sky-400 shadow-md shadow-sky-500/20"
-                        : "bg-slate-900/40 border border-slate-800 text-slate-600 cursor-not-allowed opacity-40";
+                        ? "bg-blue-600 text-white cursor-not-allowed border-blue-500 shadow-sm"
+                        : "bg-slate-950/50 border border-slate-800/60 text-slate-600 cursor-not-allowed opacity-35";
                     } else if (isSelected) {
-                      seatStyle = "bg-amber-500 text-black font-extrabold border-amber-400 shadow-lg shadow-amber-500/30 scale-105 cursor-pointer";
+                      seatStyle = "bg-amber-500 text-slate-950 font-bold border-amber-400 shadow-md shadow-amber-500/20 scale-105 cursor-pointer";
                     }
 
                     return (
@@ -207,7 +207,7 @@ export default function UserSeatLayout() {
 
         {/* Premium Section */}
         <div>
-          <div className="flex items-center justify-between text-xs font-bold text-sky-400 uppercase tracking-wider mb-3 px-2 border-b border-sky-500/20 pb-1">
+          <div className="flex items-center justify-between text-xs font-bold text-slate-300 uppercase tracking-wider mb-3 px-2 border-b border-slate-700/60 pb-1">
             <span>✨ Premium Club Tier — ₹{show?.premium_price || 200}</span>
             <span className="text-[10px] text-slate-400 font-normal">Rows C to F</span>
           </div>
@@ -226,13 +226,13 @@ export default function UserSeatLayout() {
                     const isMine = myTickets.includes(seat.id);
                     const isSelected = selected.some((s) => s.id === seat.id);
 
-                    let seatStyle = "bg-slate-900 border border-slate-700 text-slate-300 hover:border-sky-400 hover:bg-slate-800 cursor-pointer";
+                    let seatStyle = "bg-slate-900 border border-slate-700 text-slate-300 hover:border-slate-500 hover:bg-slate-800 cursor-pointer";
                     if (seat.is_booked) {
                       seatStyle = isMine
-                        ? "bg-sky-500 text-white cursor-not-allowed border-sky-400 shadow-md shadow-sky-500/20"
-                        : "bg-slate-900/40 border border-slate-800 text-slate-600 cursor-not-allowed opacity-40";
+                        ? "bg-blue-600 text-white cursor-not-allowed border-blue-500 shadow-sm"
+                        : "bg-slate-950/50 border border-slate-800/60 text-slate-600 cursor-not-allowed opacity-35";
                     } else if (isSelected) {
-                      seatStyle = "bg-amber-500 text-black font-extrabold border-amber-400 shadow-lg shadow-amber-500/30 scale-105 cursor-pointer";
+                      seatStyle = "bg-amber-500 text-slate-950 font-bold border-amber-400 shadow-md shadow-amber-500/20 scale-105 cursor-pointer";
                     }
 
                     return (
@@ -278,13 +278,13 @@ export default function UserSeatLayout() {
                     const isMine = myTickets.includes(seat.id);
                     const isSelected = selected.some((s) => s.id === seat.id);
 
-                    let seatStyle = "bg-slate-900 border border-slate-700 text-slate-300 hover:border-slate-500 hover:bg-slate-800 cursor-pointer";
+                    let seatStyle = "bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-600 hover:bg-slate-800 cursor-pointer";
                     if (seat.is_booked) {
                       seatStyle = isMine
-                        ? "bg-sky-500 text-white cursor-not-allowed border-sky-400 shadow-md shadow-sky-500/20"
-                        : "bg-slate-900/40 border border-slate-800 text-slate-600 cursor-not-allowed opacity-40";
+                        ? "bg-blue-600 text-white cursor-not-allowed border-blue-500 shadow-sm"
+                        : "bg-slate-950/50 border border-slate-800/60 text-slate-600 cursor-not-allowed opacity-35";
                     } else if (isSelected) {
-                      seatStyle = "bg-amber-500 text-black font-extrabold border-amber-400 shadow-lg shadow-amber-500/30 scale-105 cursor-pointer";
+                      seatStyle = "bg-amber-500 text-slate-950 font-bold border-amber-400 shadow-md shadow-amber-500/20 scale-105 cursor-pointer";
                     }
 
                     return (
@@ -323,7 +323,7 @@ export default function UserSeatLayout() {
                   {selected.map((s) => (
                     <span
                       key={s.id}
-                      className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-xs border border-amber-500/30"
+                      className="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-bold text-xs border border-amber-500/25"
                     >
                       {s.row}{s.column}
                     </span>
@@ -347,9 +347,9 @@ export default function UserSeatLayout() {
           <button
             onClick={handleProceedToPay}
             disabled={selected.length === 0}
-            className={`flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm shadow-xl transition cursor-pointer ${
+            className={`flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm shadow-md transition cursor-pointer ${
               selected.length > 0
-                ? "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black shadow-amber-500/20"
+                ? "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-amber-500/15"
                 : "bg-slate-800 text-slate-500 cursor-not-allowed"
             }`}
           >

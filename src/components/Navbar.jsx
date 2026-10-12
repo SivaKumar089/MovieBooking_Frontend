@@ -14,12 +14,16 @@ import {
   FaChartBar,
   FaSignOutAlt,
   FaLock,
+  FaShieldAlt,
+  FaQrcode,
 } from "react-icons/fa";
+import TicketScannerModal from "./TicketScannerModal";
 
 export default function RoleBasedLayout() {
   const access = useSelector((state) => state.auth.access);
   const [userData, setUserData] = useState(null);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [scannerOpen, setScannerOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -69,9 +73,9 @@ export default function RoleBasedLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col">
       {/* Sleek Cinema Header */}
-      <header className="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40 px-4 sm:px-8 py-3.5 shadow-xl">
+      <header className="bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40 px-4 sm:px-8 py-3.5 shadow-lg">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
@@ -85,12 +89,12 @@ export default function RoleBasedLayout() {
               to="/"
               className="flex items-center gap-2 group transition duration-300"
             >
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-105 transition">
-                <FaLock className="text-white text-base" />
+              <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/15 group-hover:scale-105 transition">
+                <FaLock className="text-slate-950 text-base" />
               </div>
               <span className="text-xl font-black tracking-tight text-white flex items-center gap-0.5">
-                Seat<span className="text-amber-400">Lock</span>
-                <span className="ml-2 text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-300 hidden md:inline">
+                Book<span className="text-amber-400">it</span>
+                <span className="ml-2 text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400/90 hidden md:inline">
                   Cinema
                 </span>
               </span>
@@ -119,19 +123,29 @@ export default function RoleBasedLayout() {
 
           {/* Right Action / Profile */}
           <div className="flex items-center gap-3">
+            {/* Gate Pass Scanner Trigger */}
+            <button
+              onClick={() => setScannerOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 text-amber-400/90 hover:text-amber-300 transition cursor-pointer"
+              title="Scan or verify a ticket pass"
+            >
+              <FaShieldAlt size={12} />
+              <span className="hidden md:inline">Verify Pass</span>
+            </button>
+
             {username ? (
               <div className="flex items-center gap-3">
                 <div
                   onClick={() => navigate("/auth/profile")}
                   className="flex items-center gap-2 py-1 px-2.5 rounded-full bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 cursor-pointer transition"
                 >
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white shadow-inner">
+                  <div className="w-7 h-7 rounded-full bg-slate-700 border border-slate-600 text-amber-300 flex items-center justify-center text-xs font-bold shadow-inner">
                     {getInitials(username)}
                   </div>
                   <span className="text-xs font-semibold text-slate-200 max-w-[100px] truncate hidden md:inline">
                     {username}
                   </span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-700 text-slate-300 font-medium capitalize">
+                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-700/80 text-slate-300 font-medium capitalize">
                     {role}
                   </span>
                 </div>
@@ -154,7 +168,7 @@ export default function RoleBasedLayout() {
                 </NavLink>
                 <NavLink
                   to="/auth/signup"
-                  className="text-xs font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black px-3.5 py-1.5 rounded-lg shadow-md shadow-amber-500/20 font-bold transition"
+                  className="text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 px-3.5 py-1.5 rounded-lg shadow-sm shadow-amber-500/15 transition"
                 >
                   Get Started
                 </NavLink>
@@ -177,10 +191,10 @@ export default function RoleBasedLayout() {
             <div>
               <div className="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center">
-                    <FaLock className="text-white text-sm" />
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center">
+                    <FaLock className="text-slate-950 text-sm" />
                   </div>
-                  <span className="font-bold text-lg text-white">SeatLock</span>
+                  <span className="font-bold text-lg text-white">Bookit</span>
                 </div>
                 <button
                   onClick={() => setIsMobileSidebarOpen(false)}
@@ -208,6 +222,15 @@ export default function RoleBasedLayout() {
                     {link.name}
                   </NavLink>
                 ))}
+                <button
+                  onClick={() => {
+                    setIsMobileSidebarOpen(false);
+                    setScannerOpen(true);
+                  }}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-amber-400 hover:bg-slate-800 text-left transition"
+                >
+                  <FaShieldAlt /> Verify Pass
+                </button>
               </nav>
             </div>
 
@@ -229,6 +252,12 @@ export default function RoleBasedLayout() {
       <main className="flex-1 max-w-7xl mx-auto w-full p-4 sm:px-8 py-6">
         <Outlet />
       </main>
+
+      {/* Integrated Ticket Scanner Modal */}
+      <TicketScannerModal
+        isOpen={scannerOpen}
+        onClose={() => setScannerOpen(false)}
+      />
     </div>
   );
 }

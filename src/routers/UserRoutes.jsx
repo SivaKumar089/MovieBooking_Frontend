@@ -9,11 +9,13 @@ import PaymentPage from "../pages/user/PaymentPage";
 import UserDashboard from "../pages/user/UserDashboard";
 import NotFound from "../components/NotFound";
 import CancelTicket from "../pages/user/CancelTicket";
+import VerifyTicketPage from "../pages/user/VerifyTicketPage";
 import Navbar from "../components/Navbar";
+
 export default function UserRoutes() {
   return (
     <Routes>
-        <Route path="dashboard" element={<UserDashboard />} />
+      <Route path="dashboard" element={<UserDashboard />} />
       <Route element={<Navbar />}>
         <Route path="theaters" element={<GetTheaters />} />
         <Route path="movies" element={<GetMovies />} />
@@ -22,8 +24,9 @@ export default function UserRoutes() {
         <Route path="seat-layout" element={<UserSeatLayout />} />
         <Route path="payment" element={<PaymentPage />} />
         <Route path="cancel" element={<CancelTicket />} />
+        <Route path="verify" element={<VerifyTicketPage />} />
       </Route>
-        <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

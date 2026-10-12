@@ -73,12 +73,12 @@ export default function ResetPassword() {
         </Link>
 
         <div className="flex flex-col items-center text-center mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/25 mb-4">
-            <FaLock className="text-white text-xl" />
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/20 mb-4">
+            <FaLock className="text-slate-950 text-xl" />
           </div>
           <h1 className="text-2xl font-bold text-white">Create New Password</h1>
           <p className="text-xs text-slate-400 mt-1">
-            Set a new secure password for your SeatLock Cinema account
+            Set a new secure password for your Bookit Cinema account
           </p>
         </div>
 

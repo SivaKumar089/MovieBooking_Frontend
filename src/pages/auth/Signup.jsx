@@ -108,7 +108,7 @@ const Signup = () => {
     setSubmitting(true);
     try {
       await axios.post("signup/", formData);
-      toast.success("Registration successful! Welcome to SeatLock Cinema.");
+      toast.success("Registration successful! Welcome to Bookit Cinema.");
       navigate("/auth/login");
     } catch (err) {
       const errorMsg =
@@ -134,11 +134,11 @@ const Signup = () => {
         {/* Cinema Brand Header */}
         <div className="flex flex-col items-center text-center mb-8">
           <Link to="/" className="flex items-center gap-2.5 mb-3 group">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/25 group-hover:scale-105 transition">
-              <FaLock className="text-white text-lg" />
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/20 group-hover:scale-105 transition">
+              <FaLock className="text-slate-950 text-lg" />
             </div>
             <span className="text-2xl font-black tracking-tight text-white">
-              Seat<span className="text-amber-400">Lock</span>
+              Book<span className="text-amber-400">it</span>
             </span>
           </Link>
           <span className="text-xs uppercase tracking-widest font-bold text-amber-400/90 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
@@ -148,7 +148,7 @@ const Signup = () => {
             Create Your Cinema Account
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Join SeatLock for instant VIP recliners & seamless box-office management
+            Join Bookit for instant VIP recliners & seamless box-office management
           </p>
         </div>
 
@@ -402,7 +402,7 @@ const Signup = () => {
 
         <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-slate-600">
           <FaShieldAlt className="text-emerald-500" />
-          <span>SeatLock Secure Verification • ACID Guaranteed</span>
+          <span>Bookit Secure Verification • ACID Guaranteed</span>
         </div>
       </div>
     </div>

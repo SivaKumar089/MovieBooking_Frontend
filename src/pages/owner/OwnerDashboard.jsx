@@ -59,11 +59,11 @@ export default function OwnerDashboard() {
         <div>
           <div className="flex items-center justify-between mb-8">
             <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center shadow-md shadow-amber-500/20 group-hover:scale-105 transition">
-                <FaLock className="text-white text-sm" />
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/15 group-hover:scale-105 transition">
+                <FaLock className="text-slate-950 text-sm" />
               </div>
               <span className="font-extrabold text-lg text-white">
-                Seat<span className="text-amber-400">Lock</span>
+                Book<span className="text-amber-400">it</span>
               </span>
             </Link>
             <button className="md:hidden text-slate-400 p-1" onClick={toggleSidebar}>

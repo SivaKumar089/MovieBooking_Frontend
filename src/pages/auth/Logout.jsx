@@ -15,7 +15,7 @@ export default function Logout() {
 
     setTimeout(() => {
       dispatch(logout());
-      toast.success("Signed out of SeatLock Cinema. See you at the movies! 🎬", {
+      toast.success("Signed out of Bookit Cinema. See you at the movies! 🎬", {
         position: "top-right",
         autoClose: 2000,
       });
@@ -55,7 +55,7 @@ export default function Logout() {
             </div>
 
             <h1 className="text-xl sm:text-2xl font-bold mb-2 text-white">
-              Sign Out from SeatLock?
+              Sign Out from Bookit?
             </h1>
             <p className="text-xs text-slate-400 mb-8 font-light max-w-xs mx-auto">
               You will need to sign in again to view your tickets or reserve seats.

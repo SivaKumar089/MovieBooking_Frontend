@@ -54,7 +54,7 @@ export default function Login() {
     try {
       const res = await axios.post("login/", credentials);
       dispatch(loginSuccess(res.data));
-      toast.success("Welcome back to SeatLock Cinema! 🎬");
+      toast.success("Welcome back to Bookit Cinema! 🎬");
 
       const role = res.data?.user?.role || res.data?.role;
       if (role === "admin") {
@@ -88,11 +88,11 @@ export default function Login() {
         {/* Cinema Brand Header */}
         <div className="flex flex-col items-center text-center mb-8">
           <Link to="/" className="flex items-center gap-2.5 mb-3 group">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center shadow-lg shadow-amber-500/25 group-hover:scale-105 transition">
-              <FaLock className="text-white text-lg" />
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/20 group-hover:scale-105 transition">
+              <FaLock className="text-slate-950 text-lg" />
             </div>
             <span className="text-2xl font-black tracking-tight text-white">
-              Seat<span className="text-amber-400">Lock</span>
+              Book<span className="text-amber-400">it</span>
             </span>
           </Link>
           <span className="text-xs uppercase tracking-widest font-bold text-amber-400/90 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">

@@ -62,7 +62,7 @@ export default function NotFound() {
       </div>
 
       <div className="mt-16 text-xs text-slate-600 font-mono tracking-wider uppercase">
-        SeatLock Cinema • HTTP 404 Not Found
+        Bookit Cinema • HTTP 404 Not Found
       </div>
     </div>
   );

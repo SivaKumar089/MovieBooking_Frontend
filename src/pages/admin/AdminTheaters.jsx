@@ -30,7 +30,7 @@ export default function AdminTheaters() {
             <FaWarehouse className="text-amber-400" /> Cinema Venues & Halls
           </h2>
           <p className="text-xs text-slate-400 mt-1">
-            Overview of all theater partners enrolled in the SeatLock circuit
+            Overview of all theater partners enrolled in the Bookit circuit
           </p>
         </div>
 

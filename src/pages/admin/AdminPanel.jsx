@@ -87,12 +87,12 @@ export default function AdminDashboardLayout() {
           <div className="flex items-center justify-between pb-4 border-b border-slate-800">
             <div>
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-black font-black text-sm shadow-lg shadow-amber-500/20">
-                  SL
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center text-slate-950 font-black text-sm shadow-md shadow-amber-500/15">
+                  BK
                 </div>
                 <div>
                   <h2 className="text-base font-black tracking-wider text-white">
-                    SEAT<span className="text-amber-400">LOCK</span>
+                    BOOK<span className="text-amber-400">IT</span>
                   </h2>
                   <span className="text-[10px] font-mono uppercase tracking-widest text-amber-500 block">
                     Admin Console
@@ -169,7 +169,7 @@ export default function AdminDashboardLayout() {
             <FaExternalLinkAlt size={11} className="text-slate-500" />
           </Link>
           <div className="text-[11px] text-slate-500 text-center py-1">
-            SeatLock Master v2.4 • VIP Suite
+            Bookit Master v2.4 • VIP Suite
           </div>
         </div>
       </aside>
