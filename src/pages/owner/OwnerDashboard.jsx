@@ -20,6 +20,7 @@ import { OwnerBookings } from "./OwnerBookings";
 import { OwnerTheaters } from "./OwnerTheaters";
 import { OwnerMovies } from "./OwnerMovies";
 import { OwnerShows } from "./OwnerShows";
+import { ShowSeats } from "./ShowSeats";
 
 export default function OwnerDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,6 +32,7 @@ export default function OwnerDashboard() {
     { label: "My Theaters", icon: <FaTheaterMasks />, component: <OwnerTheaters /> },
     { label: "My Movies", icon: <FaFilm />, component: <OwnerMovies /> },
     { label: "My Shows", icon: <FaCalendarAlt />, component: <OwnerShows /> },
+    { label: "Seat Status & Map", icon: <FaChair />, component: <ShowSeats /> },
     { label: "Register Venue", icon: <FaPlus />, component: <AddTheater /> },
     { label: "Add Movie", icon: <FaPlus />, component: <AddMovie /> },
     { label: "Schedule Show", icon: <FaPlus />, component: <AddShow /> },
@@ -97,14 +99,22 @@ export default function OwnerDashboard() {
 
           <div className="mt-8 pt-6 border-t border-slate-800/80 px-1">
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2 px-2">
-              Audience View
+              Audience & Reservations
             </div>
-            <Link
-              to="/user/movies"
-              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/40 transition"
-            >
-              <FaFilm size={12} /> Live Audience Catalog
-            </Link>
+            <div className="space-y-1">
+              <Link
+                to="/user/my-tickets"
+                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-blue-400 hover:text-blue-300 hover:bg-slate-800/40 transition"
+              >
+                <FaTicketAlt size={12} /> My Booked Tickets
+              </Link>
+              <Link
+                to="/user/movies"
+                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/40 transition"
+              >
+                <FaFilm size={12} /> Live Audience Catalog
+              </Link>
+            </div>
           </div>
         </div>
 

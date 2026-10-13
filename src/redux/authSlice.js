@@ -5,13 +5,25 @@ const getSavedTokens = () => {
   try {
     const access = localStorage.getItem("accessToken");
     const refresh = localStorage.getItem("refreshToken");
+    const savedUser = localStorage.getItem("user");
     if (access) {
-      const user = jwtDecode(access);
+      let user = null;
+      if (savedUser) {
+        try {
+          user = JSON.parse(savedUser);
+        } catch (e) {
+          user = null;
+        }
+      }
+      if (!user) {
+        user = jwtDecode(access);
+      }
       return { access, refresh, user };
     }
   } catch (e) {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
   }
   return { access: null, refresh: null, user: null };
 };
@@ -27,16 +39,17 @@ const authSlice = createSlice({
   },
   reducers: {
     loginSuccess: (state, action) => {
-      const { access, refresh } = action.payload;
+      const { access, refresh, user } = action.payload;
       try {
-        state.user = jwtDecode(access);
+        state.user = user || jwtDecode(access);
       } catch (e) {
-        state.user = null;
+        state.user = user || null;
       }
       state.access = access;
       state.refresh = refresh;
       if (access) localStorage.setItem("accessToken", access);
       if (refresh) localStorage.setItem("refreshToken", refresh);
+      if (state.user) localStorage.setItem("user", JSON.stringify(state.user));
     },
     logout: (state) => {
       state.user = null;
@@ -44,6 +57,7 @@ const authSlice = createSlice({
       state.refresh = null;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
     },
     refreshToken: (state, action) => {
       state.access = action.payload.access;

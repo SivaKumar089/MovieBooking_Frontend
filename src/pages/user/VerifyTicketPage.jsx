@@ -1,9 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import TicketScannerModal from "../../components/TicketScannerModal";
 import { FaShieldAlt, FaQrcode, FaCheckCircle, FaUserCheck, FaLock } from "react-icons/fa";
 
 export default function VerifyTicketPage() {
   const [modalOpen, setModalOpen] = useState(true);
+  const user = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.access);
+  const navigate = useNavigate();
+
+  // Enforce access control on the scanner page: Owners and Admins only
+  useEffect(() => {
+    if (!token) {
+      toast.error("Authentication required: Please sign in as an owner or administrator.");
+      navigate("/auth/login", { replace: true });
+      return;
+    }
+    if (user && user.role !== "owner" && user.role !== "admin") {
+      toast.error("Access Denied: Ticket verification terminal is restricted to cinema owners and administrators.");
+      navigate("/user/movies", { replace: true });
+    }
+  }, [user, token, navigate]);
+
+  if (!token || (user && user.role !== "owner" && user.role !== "admin")) {
+    return (
+      <div className="py-20 text-center text-slate-400">
+        <FaShieldAlt className="text-4xl text-rose-500 mx-auto mb-3" />
+        <h2 className="text-xl font-bold text-white mb-2">Restricted Terminal Access</h2>
+        <p className="text-sm">Redirecting to cinema catalog...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="py-8 max-w-3xl mx-auto" data-aos="fade-up">

@@ -54,6 +54,7 @@ export default function RoleBasedLayout() {
       { name: "Movies", path: "/owner/movies", icon: <FaFilm size={15} /> },
       { name: "Shows", path: "/owner/shows", icon: <FaCalendarAlt size={15} /> },
       { name: "Bookings", path: "/owner/bookings", icon: <FaTicketAlt size={15} /> },
+      { name: "My Tickets", path: "/user/my-tickets", icon: <FaTicketAlt size={15} /> },
     ],
     admin: [
       { name: "Admin Panel", path: "/admin/adminpanel", icon: <FaHome size={15} /> },
@@ -123,15 +124,17 @@ export default function RoleBasedLayout() {
 
           {/* Right Action / Profile */}
           <div className="flex items-center gap-3">
-            {/* Gate Pass Scanner Trigger */}
-            <button
-              onClick={() => setScannerOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 text-amber-400/90 hover:text-amber-300 transition cursor-pointer"
-              title="Scan or verify a ticket pass"
-            >
-              <FaShieldAlt size={12} />
-              <span className="hidden md:inline">Verify Pass</span>
-            </button>
+            {/* Gate Pass Scanner Trigger — Authorized Owner & Admin Only */}
+            {(role === "owner" || role === "admin") && (
+              <button
+                onClick={() => setScannerOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 text-amber-400/90 hover:text-amber-300 transition cursor-pointer"
+                title="Scan or verify a ticket pass"
+              >
+                <FaShieldAlt size={12} />
+                <span className="hidden md:inline">Verify Pass</span>
+              </button>
+            )}
 
             {username ? (
               <div className="flex items-center gap-3">
@@ -222,15 +225,17 @@ export default function RoleBasedLayout() {
                     {link.name}
                   </NavLink>
                 ))}
-                <button
-                  onClick={() => {
-                    setIsMobileSidebarOpen(false);
-                    setScannerOpen(true);
-                  }}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-amber-400 hover:bg-slate-800 text-left transition"
-                >
-                  <FaShieldAlt /> Verify Pass
-                </button>
+                {(role === "owner" || role === "admin") && (
+                  <button
+                    onClick={() => {
+                      setIsMobileSidebarOpen(false);
+                      setScannerOpen(true);
+                    }}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-amber-400 hover:bg-slate-800 text-left transition"
+                  >
+                    <FaShieldAlt /> Verify Pass
+                  </button>
+                )}
               </nav>
             </div>
 

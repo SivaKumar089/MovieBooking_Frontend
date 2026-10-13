@@ -11,6 +11,11 @@ import OwnerDashboard from "../pages/owner/OwnerDashboard";
 import NotFound from "../components/NotFound";
 import Navbar from "../components/Navbar";
 import { ShowSeats } from "../pages/owner/ShowSeats";
+import MyTickets from "../pages/user/MyTickets";
+import UserSeatLayout from "../pages/user/UserSeatLayout";
+import PaymentPage from "../pages/user/PaymentPage";
+import VerifyTicketPage from "../pages/user/VerifyTicketPage";
+
 export default function OwnerRoutes() {
   return (
     <Routes>
@@ -24,6 +29,11 @@ export default function OwnerRoutes() {
         <Route path="add-show" element={<AddShow />} />
         <Route path="bookings" element={<OwnerBookings />} />
         <Route path="seatlayout" element={<ShowSeats />} />
+        <Route path="status" element={<ShowSeats />} />
+        <Route path="seat-layout" element={<UserSeatLayout />} />
+        <Route path="my-tickets" element={<MyTickets />} />
+        <Route path="payment" element={<PaymentPage />} />
+        <Route path="verify" element={<VerifyTicketPage />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

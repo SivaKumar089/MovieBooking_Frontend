@@ -17,6 +17,7 @@ import {
   FaQrcode,
 } from "react-icons/fa";
 import axios from "../utils/axios";
+import { useSelector } from "react-redux";
 import TicketScannerModal from "./TicketScannerModal";
 
 export default function HomePage() {
@@ -24,6 +25,7 @@ export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [featuredMovies, setFeaturedMovies] = useState([]);
   const [scannerOpen, setScannerOpen] = useState(false);
+  const role = useSelector((state) => state.auth.user?.role);
 
   useEffect(() => {
     axios
@@ -140,12 +142,14 @@ export default function HomePage() {
           >
             <FaTheaterMasks /> View Theaters
           </Link>
-          <button
-            onClick={() => setScannerOpen(true)}
-            className="bg-slate-900/90 hover:bg-slate-800 text-amber-400/90 hover:text-amber-300 border border-amber-500/25 hover:border-amber-500/40 font-semibold px-6 py-3.5 rounded-xl text-sm sm:text-base transition flex items-center gap-2 cursor-pointer shadow-sm"
-          >
-            <FaQrcode /> Gate Pass Scanner
-          </button>
+          {(role === "owner" || role === "admin") && (
+            <button
+              onClick={() => setScannerOpen(true)}
+              className="bg-slate-900/90 hover:bg-slate-800 text-amber-400/90 hover:text-amber-300 border border-amber-500/25 hover:border-amber-500/40 font-semibold px-6 py-3.5 rounded-xl text-sm sm:text-base transition flex items-center gap-2 cursor-pointer shadow-sm"
+            >
+              <FaQrcode /> Gate Pass Scanner
+            </button>
+          )}
         </div>
       </section>
 

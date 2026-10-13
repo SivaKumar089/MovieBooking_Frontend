@@ -3,6 +3,7 @@ import axios from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { QRCodeSVG } from "qrcode.react";
+import { useSelector } from "react-redux";
 import TicketScannerModal from "../../components/TicketScannerModal";
 import {
   FaFilm,
@@ -25,6 +26,7 @@ import {
 
 export default function MyTickets() {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedPass, setSelectedPass] = useState(null);
@@ -333,17 +335,19 @@ export default function MyTickets() {
               </div>
             </div>
 
-            <div className="flex gap-2">
-              <button
-                onClick={() => {
-                  setSelectedPass(null);
-                  handleOpenScanner(selectedPass.id);
-                }}
-                className="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs shadow-md transition cursor-pointer"
-              >
-                Scan / Verify Against Database
-              </button>
-            </div>
+            {(user?.role === "owner" || user?.role === "admin") && (
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    setSelectedPass(null);
+                    handleOpenScanner(selectedPass.id);
+                  }}
+                  className="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs shadow-md transition cursor-pointer"
+                >
+                  Scan / Verify Against Database
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}

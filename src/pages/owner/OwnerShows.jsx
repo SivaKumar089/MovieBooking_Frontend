@@ -25,7 +25,7 @@ export function OwnerShows() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("shows/")
+      .get("shows/?managed=true")
       .then((res) => {
         setShows(res.data);
       })
@@ -81,6 +81,7 @@ export function OwnerShows() {
           {filteredShows.map((show) => {
             const booked = show.booked_seats || 0;
             const total = show.total_seats || 100;
+            const available = show.available_seats !== undefined ? show.available_seats : Math.max(0, total - booked);
             const occupancyRate = Math.round((booked / total) * 100);
 
             return (
@@ -121,6 +122,22 @@ export function OwnerShows() {
                     </div>
                   </div>
 
+                  {/* Seat Counts Breakdown */}
+                  <div className="grid grid-cols-3 gap-2 mb-4 text-center">
+                    <div className="bg-slate-950/60 p-2 rounded-xl border border-slate-800">
+                      <span className="text-[10px] text-slate-400 block font-medium">Total</span>
+                      <span className="text-xs font-bold text-slate-200">{total}</span>
+                    </div>
+                    <div className="bg-slate-950/60 p-2 rounded-xl border border-emerald-500/20">
+                      <span className="text-[10px] text-emerald-400 block font-medium">Available</span>
+                      <span className="text-xs font-bold text-emerald-400">{available}</span>
+                    </div>
+                    <div className="bg-slate-950/60 p-2 rounded-xl border border-rose-500/20">
+                      <span className="text-[10px] text-rose-400 block font-medium">Booked</span>
+                      <span className="text-xs font-bold text-rose-400">{booked}</span>
+                    </div>
+                  </div>
+
                   {/* Occupancy Progress */}
                   <div className="space-y-1.5 mb-5">
                     <div className="flex justify-between text-xs text-slate-400 font-medium">
@@ -147,15 +164,26 @@ export function OwnerShows() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() =>
-                    navigate("/owner/seatlayout", { state: { showId: show.id } })
-                  }
-                  className="w-full bg-slate-800 hover:bg-slate-700 text-slate-100 hover:text-amber-400 font-bold text-xs py-2.5 px-4 rounded-xl border border-slate-700/80 transition duration-200 flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <FaChair /> Inspect Seat Layout
-                  <FaArrowRight size={10} />
-                </button>
+                <div className="flex items-center gap-2 pt-2 border-t border-slate-800/60">
+                  <button
+                    onClick={() => {
+                      sessionStorage.setItem("owner_selected_show_id", String(show.id));
+                      navigate("/owner/status", { state: { showId: show.id } });
+                    }}
+                    className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-100 hover:text-amber-400 font-bold text-xs py-2.5 px-3 rounded-xl border border-slate-700/80 transition duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <FaChair size={11} /> Inspect Status
+                  </button>
+                  <button
+                    onClick={() => {
+                      sessionStorage.setItem("user_booking_show_id", String(show.id));
+                      navigate("/user/seat-layout", { state: { showId: show.id } });
+                    }}
+                    className="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs py-2.5 px-3 rounded-xl shadow-sm shadow-amber-500/20 transition duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <FaTicketAlt size={11} /> Book Seats
+                  </button>
+                </div>
               </div>
             );
           })}

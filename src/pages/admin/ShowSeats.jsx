@@ -13,7 +13,7 @@ export function ShowSeats() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`/shows/${showId}/seats/`)
+      .get(`shows/${showId}/seats/`)
       .then((res) => setSeats(res.data))
       .catch((err) => {
         toast.error("Failed to load show seat layout");
@@ -81,33 +81,53 @@ export function ShowSeats() {
         ) : (
           <div className="bg-slate-900/90 rounded-2xl border border-slate-800 p-6 shadow-2xl">
             <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2.5">
-              {seats.map((seat) => (
-                <div
-                  key={seat.id}
-                  className={`text-center py-2 px-1 rounded-xl text-xs font-mono font-bold transition-all duration-200 border flex flex-col items-center justify-center gap-0.5 ${
-                    seat.is_booked
-                      ? "bg-rose-950/40 border-rose-500/30 text-rose-400 cursor-not-allowed"
-                      : "bg-slate-950 border-emerald-500/40 text-emerald-400 hover:border-emerald-400 hover:scale-105"
-                  }`}
-                >
-                  <FaChair size={11} className={seat.is_booked ? "text-rose-400" : "text-emerald-400"} />
-                  <span>
-                    {seat.row}
-                    {seat.number || seat.column}
-                  </span>
-                </div>
-              ))}
+              {seats.map((seat) => {
+                const isMine = seat.is_mine;
+                const isBooked = seat.is_booked;
+
+                let colorClasses = "bg-slate-950 border-slate-700 text-slate-300 hover:border-amber-400 hover:text-white";
+                let chairColor = "text-slate-400";
+                let title = `Seat ${seat.row}${seat.column || seat.number}: Available`;
+
+                if (isMine) {
+                  colorClasses = "bg-blue-600 text-white border-blue-400 shadow-md shadow-blue-500/30 font-black";
+                  chairColor = "text-white";
+                  title = `Seat ${seat.row}${seat.column || seat.number}: My Booked Ticket`;
+                } else if (isBooked) {
+                  colorClasses = "bg-rose-950/50 border-rose-800/60 text-rose-300/80 cursor-not-allowed opacity-75";
+                  chairColor = "text-rose-400";
+                  title = `Seat ${seat.row}${seat.column || seat.number}: Booked by ${seat.booked_by || "User"}`;
+                }
+
+                return (
+                  <div
+                    key={seat.id}
+                    title={title}
+                    className={`text-center py-2 px-1 rounded-xl text-xs font-mono font-bold transition-all duration-200 border flex flex-col items-center justify-center gap-0.5 ${colorClasses}`}
+                  >
+                    <FaChair size={11} className={chairColor} />
+                    <span>
+                      {seat.row}
+                      {seat.number || seat.column}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
 
             {/* Legend */}
-            <div className="mt-8 pt-6 border-t border-slate-800 flex items-center justify-center gap-6 text-xs text-slate-400">
+            <div className="mt-8 pt-6 border-t border-slate-800 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
               <div className="flex items-center gap-2">
-                <span className="w-3.5 h-3.5 rounded bg-slate-950 border border-emerald-500/50" />
-                <span>Available</span>
+                <span className="w-3.5 h-3.5 rounded bg-blue-600 border border-blue-400 shadow-sm" />
+                <span className="text-slate-300">My Booked Seats</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3.5 h-3.5 rounded bg-rose-950/50 border border-rose-500/40" />
-                <span>Reserved / Booked</span>
+                <span className="w-3.5 h-3.5 rounded bg-rose-950/50 border border-rose-800/60" />
+                <span>Booked by Others</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-3.5 h-3.5 rounded bg-slate-950 border border-slate-700" />
+                <span>Available</span>
               </div>
             </div>
           </div>

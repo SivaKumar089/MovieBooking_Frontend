@@ -95,10 +95,10 @@ export default function UserDashboard() {
                                 <FaHome size={12} /> Cinema Home
                             </Link>
                             <Link
-                                to="/user/verify"
-                                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-amber-400 hover:text-amber-300 hover:bg-slate-800/40 transition"
+                                to="/user/my-tickets"
+                                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-blue-400 hover:text-blue-300 hover:bg-slate-800/40 transition"
                             >
-                                <FaShieldAlt size={12} /> Gate Pass Scanner
+                                <FaTicketAlt size={12} /> My Tickets
                             </Link>
                             <Link
                                 to="/auth/profile"

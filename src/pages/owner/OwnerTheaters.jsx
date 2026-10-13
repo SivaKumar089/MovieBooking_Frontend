@@ -16,7 +16,7 @@ export function OwnerTheaters() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("theaters/")
+      .get("theaters/?managed=true")
       .then((res) => {
         setTheaters(res.data);
       })

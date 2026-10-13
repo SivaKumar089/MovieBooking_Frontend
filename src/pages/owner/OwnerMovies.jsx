@@ -25,7 +25,7 @@ export function OwnerMovies() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("movies/")
+      .get("movies/?managed=true")
       .then((res) => {
         setMovies(res.data);
       })
